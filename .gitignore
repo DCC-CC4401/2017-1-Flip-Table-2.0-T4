@@ -147,4 +147,3 @@ compiled/
 
 # Migrations directories
 migrations/
-!/account/views.py
