@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load staticfiles %}
+    {% load humanize %}
+    <main>
+        <div class="container">
+            <div id="profile-page-header" class="card">
+
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="{% static 'img/food-background3.png' %}" alt="user background">
+                </div>
+
+                <div class="row">
+                    <a class="card-profile-image-small">
+                        <img src="{{ seller.image.url }}" alt="profile image"
+                             class="circle z-depth-2 responsive-img activator">
+                    </a>
+                </div>
+
+                <div class="card-content s12">
+                    <div class="row">
+                        <div class="col s6 m3 l3 center-align">
+                            <h4 class="card-title flow-text text-darken-4 center">{{ seller.first_name }} {{ seller.last_name }}</h4>
+                            <p class="medium-small flow-text grey-text center">
+                                {% if is_peddler %}
+                                    Vendedor Ambulante
+                                {% else %}
+                                    Vendedor Fijo
+                                {% endif %}
+                            </p>
+                            {% if is_peddler %}
+                                <!-- if activo
+                                        horario inicio - horario fin
+                                     end if-->
+                            {% else %}
+                                <p class="flow-text text-darken-4 center" style="font-size: 0.88rem;">
+                                    Horario: <a class="light-green-text">{{ seller_profile.start }}
+                                    - {{ seller.end }}</a>
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="col s6 m3 l3 center-align" id="status">
+                            <h4 class="center card-title flow-text text-darken-4">Estado</h4>
+                            {#                            {% if not isAvailable %}#}
+                            {% if not is_peddler %}
+                                {% if seller.available %}
+                                    <p id="available" class="medium-small flow-text center light-green-text">
+                                        Disponible</p>
+                                {% else %}
+                                    <p id="available" class="medium-small flow-text center grey-text">No Disponible</p>
+                                {% endif %}
+                            {% else %}
+                                <p id="available" class="medium-small flow-text center
+                                {% if seller.available %}
+                                    light-green-text">Disponible
+                                {% else %}
+                                    grey-text">No Disponible
+                                {% endif %}
+                                </p>
+                            {% endif %}
+                        </div>
+                        <div class="col s6 m3 l3 center-align">
+                            <h4 class=" center card-title flow-text text-darken-4">Formas de
+                                pago</h4>
+                            {% if seller.cash %}
+                                <p class="medium-small flow-text grey-text center">Efectivo</p>
+                            {% endif %}
+                            {% if seller.credit %}
+                                <p class="medium-small flow-text grey-text center">Credito</p>
+                            {% endif %}
+                            {% if seller.debit %}
+                                <p class="medium-small flow-text grey-text center">Debito</p>
+                            {% endif %}
+                            {% if seller.social %}
+                                <p class="medium-small flow-text grey-text center">Junaeb</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="col s6 m3 l3 center-align">
+                            <h4 class="card-title grey-text flow-text text-darken-4">Favorito</h4>
+                            {#                            {% if isClient %}#}
+                            {% if False %}
+{#                                <a href="{% url 'showcase:favorite_seller' seller.id %}">#}
+                                <a href="#">
+{#                                <a href="#">#}
+                                    <i id="favorite" class=" material-icons amber-text">
+                                        {% if seller.client_set.count %}
+                                            star
+                                        {% else %}
+                                            star_border
+                                        {% endif %}
+                                    </i>
+                                </a>
+                                <span id="favorite_count" class=" grey-text flow-text text-darken-4"
+                                      style="font-size:24px; line-height:35px;">{{ seller.client_set.count }}</span>
+                            {% else %}
+                                <h6>
+                                    <i class="material-icons amber-text">star_border</i>
+                                    <span class=" grey-text flow-text text-darken-4"
+                                          style="font-size:24px; line-height:35px;">{{ seller.client_set.count }}</span>
+                                </h6>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="profile-page-content" class="row">
+            <div id="profile-page-wall" class="col s12 m8">
+                <div class="col s12 z-depth-1">
+                    <div class="tab-content col s12">
+
+                        {% for dish in dishes %}
+                            <div class="col s6 m6 l4">
+                                <div class="container">
+                                    <div class="card z-depth-1">
+                                        <div class="teal lighten-2 card-image waves-effect waves-block waves-light">
+                                            <img class="activator responsive-img center-block"
+                                                 style="max-width: 30%; margin-top:20px; margin-bottom:20px;"
+                                                 src="{{ dish.icon.url }}">
+                                        </div>
+                                        <div class="card-content">
+                                            <span class="card-title activator grey-tex|||t text-darken-4">{{ dish.name }}<i
+                                                    class="material-icons right">more_vert</i></span>
+                                            <p><a class="teal-text">${{ dish.price|intcomma }}</a></p>
+
+                                        </div>
+                                        <div class="card-reveal">
+                                        <span class="card-title grey-text text-darken-4">
+                                                        <i class="material-icons right">close</i></span>
+                                            {{ dish.name }}
+                                            {% if user.is_authenticated and user.id == seller.id %}
+{#                                                <a href="{% url 'showcase:update_dish' seller.id dish.id %}">#}
+                                                <a href="#">
+                                                    <i class="material-icons teal-text">mode_edit</i>
+                                                </a>
+                                            {% endif %}
+
+                                            <ul>
+                                                <li>Precio: <a
+                                                        class="green-text light-green-text">${{ dish.price|intcomma }}</a>
+                                                </li>
+                                                <li>Categoria:
+                                                    {% with dish.tags.all as tags %}
+                                                        {% for tag in tags %}
+                                                            {{ tag.name }},
+                                                        {% endfor %}
+                                                    {% endwith %}
+                                                </li>
+                                                <li>
+                                                    {% if user.is_authenticated and user.id == seller.id %}
+{#                                                        <form action="{% url 'showcase:showcase' seller.id %}"#}
+                                                        <form action="#"
+                                                              method="post">
+                                                            {% csrf_token %}
+                                                            <div>Stock:</div>
+                                                            <a id="stock_dec{{ dish.id }}"
+                                                               class="btn-floating waves-effect waves-light red btn-small">
+                                                                <i class="material-icons">remove</i>
+                                                            </a>
+                                                            <input type="hidden" name="dish_id" value="{{ dish.id }}">
+                                                            <input id="stock_count{{ dish.id }}"
+                                                                   value="{{ dish.stock }}"
+                                                                   type="number" name="stock_count"
+                                                                   min="0" step="1" class="validate"
+                                                                   style="height: 1.5em; width: 30%; text-align: center">
+                                                            <label for="stock_count{{ dish.id }}"></label>
+                                                            <a id="stock_inc{{ dish.id }}"
+                                                               class="btn-floating waves-effect waves-light red btn-small">
+                                                                <i class="material-icons">add</i>
+                                                            </a>
+                                                            <input type="submit" id="update_stock{{ dish.id }}"
+                                                                   style="display: none">
+                                                            <label for="update_stock{{ dish.id }}">
+                                                                <a id="stock_ok{{ dish.id }}"
+                                                                   class="btn-floating waves-effect waves-light green btn-small">
+                                                                    <i class="material-icons">check</i>
+                                                                </a>
+                                                            </label>
+                                                        </form>
+                                                        Vendidos: {{ dish.sold }}
+                                                    {% else %}
+                                                        Stock: {{ dish.stock }}
+                                                    {% endif %}
+                                                </li>
+                                                <li>Descripción: {{ dish.description }}
+                                                    <p class="right-align"><a
+                                                            class="waves-effect waves-light"
+                                                            href="{{ dish.image.url }}">Ver imagen</a></p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% if user.is_authenticated and user.id == seller.id %}
+                        <div class='row center'>
+                            <a class=' btn btn-large waves-effect button teal'
+{#                               href="{% url 'showcase:create_dish' user.id %}">Agregar#}
+                               href="#">Agregar
+                                Item</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

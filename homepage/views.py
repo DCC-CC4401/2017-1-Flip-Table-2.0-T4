@@ -541,6 +541,8 @@ def productoReq(request):
                                  "horarioFin": horarioFin, "avatar": avatar, "listaDeProductos": listaDeProductos})
 
 
+
+
 def vistaVendedorPorAlumno(request):
     if request.method == 'POST':
         id = int(request.POST.get("id"))
@@ -582,6 +584,9 @@ def vistaVendedorPorAlumno(request):
                                  "avatar": avatar, "listaDeProductos": listaDeProductos, "avatarSesion": avatarSesion,
                                  "favorito": favorito, "formasDePago": formasDePago, "horarioIni": horarioIni,
                                  "horarioFin": horarioFin, })
+
+
+
 
 
 def vistaVendedorPorAlumnoSinLogin(request):
