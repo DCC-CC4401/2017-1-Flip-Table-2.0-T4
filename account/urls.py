@@ -22,9 +22,9 @@ urlpatterns = [
     url(r'^registerAdmin/$', views.registerAdmin, name='registerAdmin'),
     url(r'^verificarEmail/$', views.verificarEmail, name='verificarEmail'),
 
-    # /account/login
+    # /users/login
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
 
-    # /account/logout
-    url(r'^logout/$', auth_views.logout, {'next_page': '/account/login'}, name='logout'),
+    # /users/logout
+    url(r'^logout/$', auth_views.logout, {'next_page': '/users/login'}, name='logout'),
 ]

@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.utils.formats import get_format
 from django.contrib.auth.models import User
 
+
 class Account(User):
     image = models.ImageField()
 
