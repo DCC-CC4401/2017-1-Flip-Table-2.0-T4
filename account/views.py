@@ -13,7 +13,7 @@ class AccountCreateView(TemplateView):
 class ClientCreateView(FormView):
     template_name = 'account/register_client.html'
     form_class = ClientCreateForm
-    success_url = 'mainpage/'
+    success_url = 'homepage/'
 
     def form_valid(self, form):
         user = form.save()
@@ -24,7 +24,7 @@ class ClientCreateView(FormView):
 class PeddlerCreateView(FormView):
     template_name = 'account/register_peddler.html'
     form_class = PeddlerCreateForm
-    success_url = 'mainpage/'
+    success_url = 'homepage/'
 
     def form_valid(self, form):
         user = form.save()
@@ -35,7 +35,7 @@ class PeddlerCreateView(FormView):
 class EstablishedCreateView(FormView):
     template_name = 'account/register_established.html'
     form_class = EstablishedCreateForm
-    success_url = 'mainpage/'
+    success_url = 'homepage/'
 
     def form_valid(self, form):
         user = form.save()
