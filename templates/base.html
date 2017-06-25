@@ -14,6 +14,11 @@
 
 <body>
 <nav class="top-nav">
+    {% if messages %}
+        {% for message in messages %}
+            <script>alert('{{ message }}');</script>
+        {% endfor %}
+    {% endif %}
     <div class="nav-wrapper teal lighten-1">
         <a href="#" class="brand-logo right"><img style="max-height: 65px!important;  padding: 8px 0!important;"
                                                   class="circle" src="/static/img/logo.png"></a>
@@ -26,50 +31,57 @@
         <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y">
             <li>
                 <div class="userView">
-                    <i class="material-icons right grey-text text-lighten-2"
-                       style="position: absolute; bottom: -0.5em; right: 0.5em; padding: 0 0 !important;">settings</i>
-                    <div class="background" style="height:175px;">
-                        <img src="/static/img/background4.png">
+                    <div class="background">
+                        <img src="{% static 'img/background4.png' %}">
                     </div>
-                    <a href="#"><img style="margin-top: 16%;" class="circle"
-                                          src="/static/img/AvatarPenguin.png"></a>
-                    <a href="#"><span style="margin-left: 5%;" class="white-text name">Invitado</span></a>
+                    {% if not user.is_authenticated %}
+                        <img class="circle" src="{% static "img/AvatarPenguin.png" %}">
+                        <span class="white-text name">Invitado</span>
+                    {% else %}
+                        {% if not is_client %}
+                            <a href="{% url 'products:showcase' user.id %}">
+                                <img class="circle" src="{{ user.image.url }}" alt="Avatar">
+                            </a>
+                        {% else %}
+                            <img class="circle" src="{{ user.image.url }}" alt="Avatar">
+                        {% endif %}
+                        <a href="{% url 'account:edit_user' %}"><i class="material-icons right grey-text text-lighten-2"
+                                                                   style="position: absolute; bottom: 0.2em; right: 0.2em; padding: 0 0 !important;">settings</i></a>
+                        <span class="white-text name">Hola {{ user.first_name }}!</span>
+                    {% endif %}
                 </div>
             </li>
             <li><a href="{% url 'homepage:index' %}"><i class="material-icons">home</i>Inicio</a></li>
-            <li><a href="{% url 'homepage:login' %}"><i class="material-icons">account_circle</i>Iniciar Sesión</a></li>
-            <!--<li><a href=""><i class="material-icons">exit_to_app</i>Cerrar Sesión</a></li>-->
-            <!--<li><div class="divider"></div></li>
-            <li><a class="subheader">Activo</a></li>
-            <li>
-                <div class="switch" style="margin-left: 80px;">
-                    <label>
-                        No<input type="checkbox"><span class="lever"></span>Si
-                    </label>
-                </div>
-            </li>
-            <li><a class="subheader">Filtros</a></li>
-            <li>
-                <div class="switch" style="margin-left: 10px;">
-                    <label>
-                        <input type="checkbox"><span class="lever"></span>Sólo mostrar favoritos
-                    </label>
-                </div>
-            </li>
-            <li>
-                <div class="switch" style="margin-left: 10px;">
-                    <label>
-                        <input type="checkbox"><span class="lever"></span>Snacks
-                    </label>
-                </div>
-            </li>
-            <li>
-                <div class="switch" style="margin-left: 10px;">
-                    <label>
-                        <input type="checkbox"><span class="lever"></span>Almuerzos
-                    </label>
-                </div>
-            </li>-->
+            {% if not user.is_authenticated %}
+                <li>
+                    <a href="{% url 'account:login' %}?next={{ request.path }}"><i
+                            class="material-icons">account_circle</i>Iniciar Sesión</a>
+                </li>
+            {% else %}
+                <li><a href="{% url 'account:logout' %}"><i class="material-icons">exit_to_app</i>Cerrar Sesión</a></li>
+            {% endif %}
+
+            <!--
+            <li><div class="divider"></div></li>
+            -->
+
+            <!-- Boton de vendedor activo -->
+
+            {% if user.is_authenticated %}
+                {% if not is_client %}
+                    <li><a href="{% url 'products:statistics' %}"><i class="material-icons">trending_up</i>Ver
+                        estadísticas</a></li>
+                {% endif %}
+            {% endif %}
+
+            {% block active %}
+
+            {% endblock %}
+
+            <!-- Boton de filtros -->
+            {% block filter %}
+
+            {% endblock %}
         </ul>
     </div>
 </nav>

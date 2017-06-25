@@ -9,4 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 from django.views.generic.edit import FormView
 
+def showcase(request, seller_id):
+    return render(request, 'homepage/map.html')
 
+def statistics(request):
+    return render(request, 'homepage/map.html')
