@@ -51,6 +51,22 @@
         }
     });
 
+    $("[id^=image_to_popup]").click(function () {
+        var num = this.id.slice('image_to_popup'.length);
+        var modal = document.getElementById('image_modal');
+        var modalImg = document.getElementById('image_popup');
+        var captionText = document.getElementById('image_popup_caption');
+        var image = this.getElementsByTagName('img')[0];
+        modal.style.display = "block";
+        modalImg.src = image.src;
+        captionText.innerHTML = image.alt;
+    });
+
+    $("#close").click(function () {
+        var modal = document.getElementById('image_modal');
+        modal.style.display = "none";
+    });
+
 })
 (jQuery);
 
