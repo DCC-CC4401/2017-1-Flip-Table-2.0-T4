@@ -35,8 +35,8 @@
                   </div>
                   <a href="#!user"><img style="margin-top: 16%;" class="circle" src="/static/img/AvatarPenguin.png"></a>
                    <a href="#!name"><span style="margin-left: 5%;" class="white-text name">Invitado</span></a>
-                  <li><a href="{% url 'account:index' %}"><i class="material-icons">home</i>Inicio</a></li>
-                <li><a href="{% url 'account:login' %}"><i class="material-icons">account_circle</i>Iniciar Sesión</a></li>
+                  <li><a href="{% url 'homepage:index' %}"><i class="material-icons">home</i>Inicio</a></li>
+                <li><a href="{% url 'homepage:login' %}"><i class="material-icons">account_circle</i>Iniciar Sesión</a></li>
                 </div>
                 </li>
         </div>
@@ -49,7 +49,7 @@
     <div class="container">
         <div class='row'></div>
         <div class='row'>
-            <form method="post" action="{% url 'account:vistaVendedorPorAlumnoSinLogin' %}" id="form-vendedor-1"> {% csrf_token %}
+            <form method="post" action="{% url 'homepage:vistaVendedorPorAlumnoSinLogin' %}" id="form-vendedor-1"> {% csrf_token %}
                 <script>
                 var vendedor = {{ vendedores|safe }}
                 var vendedor1 = vendedor[0];
@@ -58,7 +58,7 @@
             </form>
         </div>
         <div class='row'>
-            <form method="post" action="{% url 'account:vistaVendedorPorAlumnoSinLogin' %}" id="form-vendedor-2"> {% csrf_token %}
+            <form method="post" action="{% url 'homepage:vistaVendedorPorAlumnoSinLogin' %}" id="form-vendedor-2"> {% csrf_token %}
                 <script>
                     var vendedor = {{ vendedores|safe }}
                     var vendedor2 = vendedor[1];

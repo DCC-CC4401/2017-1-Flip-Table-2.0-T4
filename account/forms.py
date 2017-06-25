@@ -2,7 +2,6 @@ from django import forms
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from account.models import Client, Peddler, Established
-from django import forms
 
 
 class ClientCreateForm(UserCreationForm):
@@ -74,20 +73,3 @@ class EstablishedCreateForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'image', 'cash', 'credit',
                   'debit', 'social', 'start', 'end')
 
-
-class LoginForm(forms.Form):
-    email = forms.CharField(max_length=100)
-    password = forms.CharField(widget=forms.PasswordInput())
-
-
-class GestionProductosForm(forms.Form):
-    idVendedor = 0
-    nombre = forms.CharField(max_length=200)
-    categoria = forms.IntegerField()
-    descripcion = forms.CharField(max_length=500)
-    stock = forms.IntegerField()
-    precio = forms.IntegerField()
-
-
-class editarProductosForm(forms.Form):
-    foto = forms.FileField()
