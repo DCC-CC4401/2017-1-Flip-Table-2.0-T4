@@ -18,6 +18,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', include('mainpage.urls'))
+    url(r'^account/', include('account.urls')),
+    url(r'^mainpage/', include('mainpage.urls')),
+    url(r'^products/', include('products.urls')),
 
 ]

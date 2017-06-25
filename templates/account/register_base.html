@@ -21,13 +21,13 @@
                             {% block default %}
                                 <option value="" disabled selected>Elige una opción
                                 </option>{% endblock %}
-                            <option {% block client %}value="{% url 'register_client' %}"
+                            <option {% block client %}value="{% url 'account:register_client' %}"
                                     {% endblock %}>Cliente
                             </option>
-                            <option {% block established %}value="#"
+                            <option {% block established %}value="{% url 'account:register_established' %}"
                                     {% endblock %}>Vendedor fijo
                             </option>
-                            <option {% block peddler %}value="#"
+                            <option {% block peddler %}value="{% url 'account:register_peddler' %}"
                                     {% endblock %}>Vendedor ambulante
                             </option>
                         </select>
@@ -40,7 +40,7 @@
                 </form>
             </div>
         </div>
-        <div style="text-align: center;"><a class="grey-text"> ¿Ya tienes una cuenta? </a><a href="{% url 'login' %}">Inicia
+        <div style="text-align: center;"><a class="grey-text"> ¿Ya tienes una cuenta? </a><a href="{% url 'account:login' %}">Inicia
             sesión</a></div>
 
 

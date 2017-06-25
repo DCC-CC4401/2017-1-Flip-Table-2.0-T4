@@ -4,7 +4,6 @@ from django.utils import timezone
 from django.utils.formats import get_format
 from django.contrib.auth.models import User
 
-
 class Account(User):
     image = models.ImageField()
 
@@ -28,6 +27,10 @@ class Peddler(Seller):
     def __str__(self):
         return "Peddler - " + self.username
 
+    class Meta:
+        verbose_name = 'Peddler'
+        verbose_name_plural = 'Peddlers'
+
 
 class Established(Seller):
     start = models.TimeField()
@@ -35,6 +38,10 @@ class Established(Seller):
 
     def __str__(self):
         return "Established - " + self.username
+
+    class Meta:
+        verbose_name = 'Established'
+        verbose_name_plural = 'Established'
 
 
 class Client(Account):
@@ -44,6 +51,9 @@ class Client(Account):
     def __str__(self):
         return "Client - " + self.username
 
+    class Meta:
+        verbose_name = 'Client'
+        verbose_name_plural = 'Clients'
 
 class Usuario(models.Model):
     nombre = models.CharField(max_length=200)
