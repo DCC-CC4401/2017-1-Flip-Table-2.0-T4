@@ -1,6 +1,7 @@
 import datetime
 import simplejson
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render
 from django.utils import timezone
 from django.db.models import Count, Sum
 from django.http import HttpResponse
@@ -52,3 +53,6 @@ def favorite_seller(request, seller_id):
             client.f_established.add(seller)
     client.save()
     return HttpResponse(status=204)
+
+def statistics(request):
+    return render(request, 'homepage/map.html')

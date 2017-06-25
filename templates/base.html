@@ -39,15 +39,15 @@
                         <span class="white-text name">Invitado</span>
                     {% else %}
                         {% if not is_client %}
-                            <a href="{% url 'products:showcase' user.id %}">
-                                <img class="circle" src="{{ user.image.url }}" alt="Avatar">
+                            <a href="{% url 'showcase:seller_detail' user.id %}">
+                                <img class="circle" src="{{ account.image.url }}" alt="Avatar">
                             </a>
                         {% else %}
-                            <img class="circle" src="{{ user.image.url }}" alt="Avatar">
+                            <img class="circle" src="{{ account.image.url }}" alt="Avatar">
                         {% endif %}
                         <a href="{% url 'account:edit_user' %}"><i class="material-icons right grey-text text-lighten-2"
                                                                    style="position: absolute; bottom: 0.2em; right: 0.2em; padding: 0 0 !important;">settings</i></a>
-                        <span class="white-text name">Hola {{ user.first_name }}!</span>
+                        <span class="white-text name">Hola {{ account.first_name }}!</span>
                     {% endif %}
                 </div>
             </li>
@@ -69,7 +69,7 @@
 
             {% if user.is_authenticated %}
                 {% if not is_client %}
-                    <li><a href="{% url 'products:statistics' %}"><i class="material-icons">trending_up</i>Ver
+                    <li><a href="{% url 'showcase:statistics' %}"><i class="material-icons">trending_up</i>Ver
                         estadísticas</a></li>
                 {% endif %}
             {% endif %}
