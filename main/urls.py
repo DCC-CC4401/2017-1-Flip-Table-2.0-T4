@@ -1,7 +1,10 @@
 from django.conf.urls import url
 from main import views
+from main.views import ClientCreateView
 
 urlpatterns = [
+
+    url(r'^register/client/$', ClientCreateView.as_view(), name='register_client'),
     url(r'^$', views.index, name='index'),
     url(r'^login/$', views.login, name='login'),
     url(r'^signup/$', views.signup, name='signup'),

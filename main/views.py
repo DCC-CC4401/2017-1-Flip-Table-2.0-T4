@@ -22,6 +22,23 @@ from django.views.decorators.csrf import csrf_exempt
 from multiselectfield import MultiSelectField
 from django.core.files.storage import default_storage
 
+from django.views.generic.edit import FormView
+from main.forms import ClientCreateForm
+
+
+class ClientCreateView(FormView):
+    template_name = 'account/register_client.html'
+    form_class = ClientCreateForm
+    success_url = '/'
+
+    def form_valid(self, form):
+    #     # This method is called when valid form data has been POSTed.
+    #     # It should return an HttpResponse.
+    #     form.send_email()
+        client = form.save()
+        client.save()
+        return super(ClientCreateView, self).form_valid(form)
+
 
 def index(request):
     vendedores = []
@@ -449,7 +466,7 @@ def formView(request):
             url = 'main/vendedor-ambulante.html'
         return render(request, url, {"email": email, "tipo": tipo, "id": id})
     else:
-        return render(request, 'main/base.html', {})
+        return render(request, 'main/../templates/base.html', {})
 
 
 def logout(request):
@@ -644,7 +661,7 @@ def editarVendedor(request):
             url = 'main/editar-vendedor-ambulante.html'
         return render(request, url, argumentos)
     else:
-        return render(request, 'main/base.html', {})
+        return render(request, 'main/../templates/base.html', {})
 
 
 @csrf_exempt

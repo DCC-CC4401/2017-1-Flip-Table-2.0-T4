@@ -4,44 +4,44 @@ from django.utils import timezone
 from django.utils.formats import get_format
 from django.contrib.auth.models import User
 
-# class Account(User):
-#     image = models.ImageField()
-#
-#     def __str__(self):
-#         return "Account - " + self.username
-#
-#
-# class Seller(Account):
-#     cash = models.BooleanField(default=True)
-#     credit = models.BooleanField(default=False)
-#     debit = models.BooleanField(default=False)
-#     social = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return "Seller - " + self.username
-#
-#
-# class Peddler(Seller):
-#     available = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return "Peddler - " + self.username
-#
-#
-# class Established(Seller):
-#     start = models.TimeField()
-#     end = models.TimeField()
-#
-#     def __str__(self):
-#         return "Established - " + self.username
-#
-#
-# class Client(Account):
-#     f_peddler = models.ManyToManyField(Peddler, blank=True)
-#     f_established = models.ManyToManyField(Established, blank=True)
-#
-#     def __str__(self):
-#         return "Client - " + self.username
+class Account(User):
+    image = models.ImageField()
+
+    def __str__(self):
+        return "Account - " + self.username
+
+
+class Seller(Account):
+    cash = models.BooleanField(default=True)
+    credit = models.BooleanField(default=False)
+    debit = models.BooleanField(default=False)
+    social = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Seller - " + self.username
+
+
+class Peddler(Seller):
+    available = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Peddler - " + self.username
+
+
+class Established(Seller):
+    start = models.TimeField()
+    end = models.TimeField()
+
+    def __str__(self):
+        return "Established - " + self.username
+
+
+class Client(Account):
+    f_peddler = models.ManyToManyField(Peddler, blank=True)
+    f_established = models.ManyToManyField(Established, blank=True)
+
+    def __str__(self):
+        return "Client - " + self.username
 
 
 class Usuario(models.Model):
