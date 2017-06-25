@@ -4,7 +4,7 @@ from .models import Usuario
 from .models import Comida
 from .models import Imagen
 from .models import Transacciones
-from main.models import Client
+from mainpage.models import Client
 
 admin.site.register(Usuario)
 admin.site.register(Comida)

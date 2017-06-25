@@ -1,7 +1,7 @@
 from django import forms
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from main.models import Usuario, Comida, Client
+from mainpage.models import Usuario, Comida, Client
 from django import forms
 
 
