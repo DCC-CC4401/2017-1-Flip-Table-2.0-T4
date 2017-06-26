@@ -48,7 +48,7 @@ class PeddlerCreateView(CreateView):
 
 class PeddlerUpdateView(UpdateView):
     model = Peddler
-    template_name = 'account/edit-base.html'
+    template_name = 'account/edit-peddler.html'
     fields = ['first_name', 'last_name', 'email', 'image', 'cash', 'credit', 'debit', 'social']
 
     def get_success_url(self):
@@ -65,7 +65,7 @@ class EstablishedCreateView(CreateView):
 
 class EstablishedUpdateView(UpdateView):
     model = Established
-    template_name = 'account/edit-base.html'
+    template_name = 'account/edit-established.html'
     fields = ['first_name', 'last_name', 'email', 'image', 'cash', 'credit', 'debit', 'social', 'start', 'end']
 
     def get_success_url(self):
