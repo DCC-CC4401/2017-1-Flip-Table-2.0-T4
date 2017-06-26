@@ -1,4 +1,24 @@
 {% extends 'base.html' %}
+
+{% block active %}
+    <div>
+        {% if is_peddler and in_own_showcase %}
+            <li><a class="subheader">Activo</a></li>
+            <li>
+                <div class="switch center" style="margin-left: 10px;" id="checkin">
+                    <label for="available_switch">
+                        No
+                        <input id="available_switch" type="checkbox" {% if seller.available %}checked{% endif %}
+                               onclick='window.location.assign("{% url 'showcase:check_in' seller.id %}")'>
+                        <span class="lever"></span>
+                        Si
+                    </label>
+                </div>
+            </li>
+        {% endif %}
+    </div>
+{% endblock %}
+
 {% block content %}
     {% load staticfiles %}
     {% load humanize %}

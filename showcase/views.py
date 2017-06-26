@@ -152,3 +152,13 @@ class DishDeleteView(DeleteView):
 
 def statistics(request):
     return render(request, 'homepage/map.html')
+
+
+def check_in(request, seller_id):
+    seller_profile = get_object_or_404(Peddler, id=seller_id)
+    if seller_profile.available:
+        seller_profile.available = False
+    else:
+        seller_profile.available = True
+    seller_profile.save()
+    return HttpResponse(status=204)
