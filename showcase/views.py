@@ -26,11 +26,11 @@ class SellerDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SellerDetailView, self).get_context_data(**kwargs)
         context['is_peddler'] = hasattr(self.object, 'peddler')
-        context['is_client'] = self.request.user.is_authenticated() and Client.objects.filter(
-            pk=self.request.user.id).exists()
+        context['is_client'] = self.request.user.is_authenticated() and Client.objects.filter(pk=self.request.user.id).exists()
         context['is_favorite'] = self.object.client_set.filter(pk=self.request.user.id).exists()
         context['in_own_showcase'] = self.request.user.is_authenticated() and self.request.user.id == self.object.id
         context['dishes'] = self.object.dish_set.all()
+        context['is_available'] = self.is_available()
         return context
 
     def get_object(self, queryset=None):
@@ -40,6 +40,21 @@ class SellerDetailView(DetailView):
         else:
             return get_object_or_404(Established, pk=seller_id)
 
+    def is_available(self):
+        now = datetime.datetime.now().time()
+        is_available = False
+        try:
+            start = self.object.start
+            end = self.object.end
+            if start <= end:
+                if start <= now and now < end:
+                    is_available = True
+            else:
+                if start <= now or now < end:
+                    is_available = True
+        except:
+            is_available = False
+        return is_available
 
 # class Favorite(View):
 #     def get(self, request, pk):
