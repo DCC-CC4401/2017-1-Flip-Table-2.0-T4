@@ -58,6 +58,7 @@ class SellerDetailView(DetailView):
 #                 client.f_established.add(seller)
 #         client.save()
 #         return HttpResponse(status=204)
+
 class FavoriteView(View):
     def get(self, request, pk):
         client = get_object_or_404(Client, pk=request.user.id)
@@ -75,6 +76,24 @@ class FavoriteView(View):
                 client.f_established.add(seller)
         client.save()
         return HttpResponse(status=204)
+
+
+class StockView(View):
+    def post(self, request, pk):
+        new_stock = int(request.POST.get("stock_count", ""))
+        dish_id = request.POST.get("dish_id", "")
+        dish = get_object_or_404(Dish, id=dish_id)
+        old_stock = dish.stock
+        if new_stock < old_stock:
+            dish.sold = old_stock - new_stock
+            # seller = User.objects.get(id=pk)
+            # transaction = Transaction(user=seller, dish=dish, price=dish.price, quantity=dish.sold)
+            # transaction.save()
+        dish.stock = new_stock
+        dish.save()
+        dish.save()
+        return HttpResponse(status=204)
+
 
 def favorite_seller(request, seller_id):
     # user = get_object_or_404(User, id=seller_id)
@@ -149,6 +168,7 @@ class DishDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
+
 
 def statistics(request):
     return render(request, 'homepage/map.html')

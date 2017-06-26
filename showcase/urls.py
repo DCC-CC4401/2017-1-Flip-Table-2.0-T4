@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from showcase import views
-from showcase.views import SellerDetailView, DishCreateView, DishUpdateView, DishDeleteView, FavoriteView
+from showcase.views import SellerDetailView, DishCreateView, DishUpdateView, DishDeleteView, FavoriteView, StockView
 
 app_name = 'showcase'
 
@@ -18,6 +18,8 @@ urlpatterns = [
 
     # /showcase/<seller_id>/dish_delete/<dish_id>/delete
     url(r'^(?P<pk>[0-9]+)/dish_delete/(?P<dish_id>[0-9]+)$', DishDeleteView.as_view(), name='dish_delete'),
+
+    url(r'^(?P<pk>[0-9]+)/stock/$', StockView.as_view(), name='stock'),
 
     url(r'^statistics/$', views.statistics, name='statistics'),
 
