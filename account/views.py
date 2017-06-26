@@ -33,10 +33,8 @@ class PeddlerCreateView(CreateView):
     template_name = 'account/register_peddler.html'
     form_class = PeddlerCreateForm
 
-    def form_valid(self, form):
-        user = form.save()
-        user.save()
-        return super(PeddlerCreateView, self).form_valid(form)
+    def get_success_url(self):
+        return reverse('homepage:index')
 
 
 class EstablishedCreateView(CreateView):
