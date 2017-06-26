@@ -26,6 +26,8 @@ class SellerDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SellerDetailView, self).get_context_data(**kwargs)
         context['is_peddler'] = hasattr(self.object, 'peddler')
+        context['is_client'] = self.request.user.is_authenticated() and hasattr(self.object, 'client')
+        context['in_own_showcase'] = self.request.user.is_authenticated() and self.request.user.id == self.object.id
         context['dishes'] = self.object.dish_set.all()
         return context
 

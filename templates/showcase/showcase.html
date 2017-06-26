@@ -36,30 +36,20 @@
                                      end if-->
                             {% else %}
                                 <p class="flow-text text-darken-4 center" style="font-size: 0.88rem;">
-                                    Horario: <a class="light-green-text">{{ seller_profile.start }}
+                                    Horario: <a class="light-green-text">{{ seller.start }}
                                     - {{ seller.end }}</a>
                                 </p>
                             {% endif %}
                         </div>
                         <div class="col s6 m3 l3 center-align" id="status">
                             <h4 class="center card-title flow-text text-darken-4">Estado</h4>
-                            {#                            {% if not isAvailable %}#}
-                            {% if not is_peddler %}
-                                {% if seller.available %}
-                                    <p id="available" class="medium-small flow-text center light-green-text">
-                                        Disponible</p>
-                                {% else %}
-                                    <p id="available" class="medium-small flow-text center grey-text">No Disponible</p>
-                                {% endif %}
-                            {% else %}
-                                <p id="available" class="medium-small flow-text center
-                                {% if seller.available %}
+                            <p id="available" class="medium-small flow-text center
+                            {% if seller.available %}
                                     light-green-text">Disponible
-                                {% else %}
-                                    grey-text">No Disponible
-                                {% endif %}
-                                </p>
+                            {% else %}
+                                grey-text">No Disponible
                             {% endif %}
+                            </p>
                         </div>
                         <div class="col s6 m3 l3 center-align">
                             <h4 class=" center card-title flow-text text-darken-4">Formas de
@@ -132,8 +122,8 @@
                                         <span class="card-title grey-text text-darken-4">
                                                         <i class="material-icons right">close</i></span>
                                             {{ dish.name }}
-                                            {% if user.is_authenticated and user.id == seller.id %}
-                                                <a href="{% url 'showcase:dish_update' user.id dish.id%}">
+                                            {% if in_own_showcase %}
+                                                <a href="{% url 'showcase:dish_update' user.id dish.id %}">
                                                     <i class="material-icons teal-text">mode_edit</i>
                                                 </a>
                                             {% endif %}
@@ -143,14 +133,12 @@
                                                         class="green-text light-green-text">${{ dish.price|intcomma }}</a>
                                                 </li>
                                                 <li>Categoria:
-                                                    {% with dish.tags.all as tags %}
-                                                        {% for tag in tags %}
+                                                        {% for tag in dish.tags.all %}
                                                             {{ tag.name }},
                                                         {% endfor %}
-                                                    {% endwith %}
                                                 </li>
                                                 <li>
-                                                    {% if user.is_authenticated and user.id == seller.id %}
+                                                    {% if in_own_showcase %}
                                                         {#                                                        <form action="{% url 'showcase:showcase' seller.id %}"#}
                                                         <form action="#"
                                                               method="post">
@@ -201,15 +189,14 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {% if user.is_authenticated and user.id == seller.id %}
+                    {% if in_own_showcase %}
                         <div class='row center'>
                             <a class=' btn btn-large waves-effect button teal'
-                                                                   href="{% url 'showcase:dish_create' user.id %}">Agregar
+                               href="{% url 'showcase:dish_create' user.id %}">Agregar
                                 Item</a>
                         </div>
                     {% endif %}
                 </div>
-            </div>
             </div>
         </div>
     </main>
