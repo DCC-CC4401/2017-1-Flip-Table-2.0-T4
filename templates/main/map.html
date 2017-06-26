@@ -1,28 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="container">
-            <script
-                    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB2ECHh4w8C_romdoQJxWZ7orqFXYRzLOc&sensor=false">
-            </script>
-            <script src="../../static/js/mapControl.js">
-            </script>
-            <div id="googleMap" style="position: relative; overflow: hidden; width: 90vh; height: 93vh">
-                <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
-                    <div class="gm-err-container">
-                        <div class="gm-err-content">
-                            <div class="gm-err-icon">
-                                <img src="http://maps.gstatic.com/mapfiles/api-3/images/icon_error.png"
-                                     draggable="false" style="user-select: none;">
-                            </div>
-                            <div class="gm-err-title">Se ha producido un error.</div>
-                            <div class="gm-err-message">"Esta página no ha cargado Google Maps
-                                correctamente.
-                                Descubre
-                                los detalles técnicos del problema en la consola de JavaScript."
-                            </div>
+        <script
+                src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB2ECHh4w8C_romdoQJxWZ7orqFXYRzLOc&sensor=false">
+        </script>
+        <script src="../../static/js/mapControl.js">
+        </script>
+        {% for seller in peddlers %}
+            {% if seller.is_available %}
+                addMarker(seller.lt, seller.lng)
+            {% endif %}
+        {% endfor %}
+        <div id="googleMap" style="position: relative; overflow: hidden; width: 90vh; height: 93vh">
+            <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                <div class="gm-err-container">
+                    <div class="gm-err-content">
+                        <div class="gm-err-icon">
+                            <img src="http://maps.gstatic.com/mapfiles/api-3/images/icon_error.png"
+                                 draggable="false" style="user-select: none;">
+                        </div>
+                        <div class="gm-err-title">Se ha producido un error.</div>
+                        <div class="gm-err-message">"Esta página no ha cargado Google Maps
+                            correctamente.
+                            Descubre
+                            los detalles técnicos del problema en la consola de JavaScript."
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 {% endblock %}

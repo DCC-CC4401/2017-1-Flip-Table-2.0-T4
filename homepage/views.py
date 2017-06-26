@@ -15,8 +15,7 @@ from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreate
 
 
 def index(request):
-    vendedores = Seller.objects.all()
-    return render(request, 'main/map.html', {'vendedores': vendedores})
+    return render(request, 'main/map.html')
 
 
 def fijoDashboard(request):
