@@ -2,7 +2,7 @@ import datetime
 import simplejson
 from account.models import Seller
 from .forms import GestionProductosForm, editarProductosForm
-from .models import Comida, Favoritos, Imagen, Transacciones
+from .models import Favoritos, Imagen, Transacciones
 from django.db.models import Count, Sum
 from django.utils import timezone
 from django.shortcuts import render

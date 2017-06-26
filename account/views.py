@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 from django.urls import reverse
 
 from django.views.generic.edit import CreateView, UpdateView
-from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm
+from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm, ClientUpdateForm
 from account.models import Client
 
 
@@ -22,8 +22,9 @@ class ClientCreateView(CreateView):
 
 class ClientUpdateView(UpdateView):
     model = Client
-    template_name_suffix = '_update_form'
-    fields = ['first_name', 'last_name', 'email', 'image', 'favorite_peddlers', 'favorite_established']
+    template_name = 'account/edit-profile.html'
+    form_class = ClientUpdateForm
+
 
     def get_success_url(self):
         return reverse('homepage:index')
@@ -57,7 +58,7 @@ def editarPerfilAlumno(request):
             vendedor = Usuario.objects.filter(id=fav.idVendedor).get()
             nombre = vendedor.nombre
             nombres.append(nombre)
-    return render(request, 'main/edit-profile.html',
+    return render(request, 'main/../templates/account/edit-profile.html',
                   {"id": id, "avatarSesion": avatar, "nombre": nombre, "favoritos": favoritos, "nombres": nombres,
                    "nombresesion": request.session['nombre']})
 

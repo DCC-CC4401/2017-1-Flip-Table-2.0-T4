@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from account import views
-from account.views import AccountCreateView, ClientCreateView, PeddlerCreateView, EstablishedCreateView
+from account.views import AccountCreateView, ClientCreateView, PeddlerCreateView, EstablishedCreateView, ClientUpdateView
 from django.contrib.auth import views as auth_views
 
 app_name = 'account'
@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^register/peddler/$', PeddlerCreateView.as_view(), name='register_peddler'),
     url(r'^register/established/$', EstablishedCreateView.as_view(), name='register_established'),
     url(r'^register/([0-9A-Za-z_\/-]+)/success$', views.success, name='success'),
-    url(r'^edit/$', views.editarPerfilAlumno, name='edit_user'),
+    url(r'^edit/(?P<pk>\d+)/$', ClientUpdateView.as_view(), name='edit_user'),
     #url(r'^edit/client$', views.edit_client, name='edit_client'),
 
     #url(r'^edit/peddler$', views.edit_peddler, name='edit_peddler'),

@@ -1,6 +1,7 @@
 from django import forms
 
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 from account.models import Client, Peddler, Established
 
 
@@ -22,6 +23,22 @@ class ClientCreateForm(UserCreationForm):
     class Meta:
         model = Client
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'image')
+
+
+class ClientUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ClientUpdateForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Client
+        fields = '__all__'
+
+    def save(self, commit=True):
+        if not commit:
+            raise NotImplementedError("Can't create User and Profile without database save")
+        profile = self.instance
+        profile.save()
+        return profile
 
 
 class PeddlerCreateForm(UserCreationForm):
