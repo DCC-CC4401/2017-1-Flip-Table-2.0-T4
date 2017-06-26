@@ -94,6 +94,12 @@
             </div>
         </div>
 
+        {% if can_delete %}
+            <div style="text-align: center; padding-bottom: 30px">
+                <a onclick="return confirm('¿Está seguro?')" href="{% url 'showcase:dish_delete' dish.seller_id dish.id %}">Eliminar
+                    plato</a>
+            </div>
+        {% endif %}
 
     </main>
 {% endblock %}

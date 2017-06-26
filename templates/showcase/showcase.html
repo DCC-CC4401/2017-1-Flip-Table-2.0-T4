@@ -133,7 +133,6 @@
                                                         <i class="material-icons right">close</i></span>
                                             {{ dish.name }}
                                             {% if user.is_authenticated and user.id == seller.id %}
-                                                {#                                                <a href="{% url 'showcase:update_dish' seller.id dish.id %}">#}
                                                 <a href="{% url 'showcase:dish_update' user.id dish.id%}">
                                                     <i class="material-icons teal-text">mode_edit</i>
                                                 </a>
