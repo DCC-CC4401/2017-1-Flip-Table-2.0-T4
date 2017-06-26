@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -16,6 +17,13 @@ class AccountCreateView(TemplateView):
 class ClientCreateView(CreateView):
     template_name = 'account/register_client.html'
     form_class = ClientCreateForm
+
+    def form_valid(self, form):
+        valid = super(ClientCreateView, self).form_valid(form)
+        username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password1')
+        new_user = authenticate(username=username, password=password)
+        login(self.request, new_user)
+        return valid
 
     def get_success_url(self):
         return reverse('homepage:index')
@@ -42,6 +50,13 @@ class PeddlerCreateView(CreateView):
     template_name = 'account/register_peddler.html'
     form_class = PeddlerCreateForm
 
+    def form_valid(self, form):
+        valid = super(PeddlerCreateView, self).form_valid(form)
+        username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password1')
+        new_user = authenticate(username=username, password=password)
+        login(self.request, new_user)
+        return valid
+
     def get_success_url(self):
         return reverse('homepage:index')
 
@@ -58,6 +73,13 @@ class PeddlerUpdateView(UpdateView):
 class EstablishedCreateView(CreateView):
     template_name = 'account/register_established.html'
     form_class = EstablishedCreateForm
+
+    def form_valid(self, form):
+        valid = super(EstablishedCreateView, self).form_valid(form)
+        username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password1')
+        new_user = authenticate(username=username, password=password)
+        login(self.request, new_user)
+        return valid
 
     def get_success_url(self):
         return reverse('homepage:index')
@@ -79,7 +101,7 @@ def edit_user(request, pk):
     elif Client.objects.filter(id=pk).exists():
         return redirect('account:edit-client', pk)
     elif Established.objects.filter(id=pk).exists():
-        return redirect('account:edit-established',pk)
+        return redirect('account:edit-established', pk)
     else:
         return redirect('homepage:index')
 
