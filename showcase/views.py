@@ -41,6 +41,7 @@ class DishCreateView(CreateView):
     template_name = 'showcase/dish.html'
     form_class = DishForm
     model = Dish
+    context_object_name = 'dish'
 
     def form_valid(self, form):
         form.instance.seller = get_object_or_404(Seller, pk=self.kwargs.get(self.pk_url_kwarg))
@@ -50,11 +51,17 @@ class DishCreateView(CreateView):
     def get_success_url(self):
         return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
 
+    def get_context_data(self, **kwargs):
+        context = super(DishCreateView, self).get_context_data(**kwargs)
+        context['can_delete'] = False
+        return context
+
 
 class DishUpdateView(UpdateView):
     template_name = 'showcase/dish.html'
     form_class = DishForm
     model = Dish
+    context_object_name = 'dish'
 
     def get_object(self, queryset=None):
         return Dish.objects.get(pk=self.kwargs['dish_id'])
@@ -63,6 +70,24 @@ class DishUpdateView(UpdateView):
         form.instance.seller = get_object_or_404(Seller, pk=self.kwargs.get(self.pk_url_kwarg))
         form.instance.icon = "img/" + dict(form.fields['choices'].choices)[form.cleaned_data['choices']]
         return super(DishUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
+
+    def get_context_data(self, **kwargs):
+        context = super(DishUpdateView, self).get_context_data(**kwargs)
+        context['can_delete'] = True
+        return context
+
+
+class DishDeleteView(DeleteView):
+    model = Dish
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+    def get_object(self, queryset=None):
+        return Dish.objects.get(pk=self.kwargs['dish_id'])
 
     def get_success_url(self):
         return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
