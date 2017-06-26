@@ -70,13 +70,10 @@
 
                         <div class="col s6 m3 l3 center-align">
                             <h4 class="card-title grey-text flow-text text-darken-4">Favorito</h4>
-                            {#                            {% if isClient %}#}
-                            {% if False %}
-                                {#                                <a href="{% url 'showcase:favorite_seller' seller.id %}">#}
-                                <a href="#">
-                                    {#                                <a href="#">#}
+                            {% if is_client %}
+                                <a href="{% url 'showcase:favorite_seller' seller.id %}">
                                     <i id="favorite" class=" material-icons amber-text">
-                                        {% if seller.client_set.count %}
+                                        {% if is_favorite %}
                                             star
                                         {% else %}
                                             star_border
@@ -133,9 +130,9 @@
                                                         class="green-text light-green-text">${{ dish.price|intcomma }}</a>
                                                 </li>
                                                 <li>Categoria:
-                                                        {% for tag in dish.tags.all %}
-                                                            {{ tag.name }},
-                                                        {% endfor %}
+                                                    {% for tag in dish.tags.all %}
+                                                        {{ tag.name }},
+                                                    {% endfor %}
                                                 </li>
                                                 <li>
                                                     {% if in_own_showcase %}
