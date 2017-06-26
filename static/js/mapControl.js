@@ -63,6 +63,17 @@ function initialize() {
     centerControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 }
+function addMarker(map, position, id) {
+    marker = new google.maps.Marker({
+        position: myCenter,
+        // icon:'themes/assets/images/nepali-momo.png',
+        animation: google.maps.Animation.BOUNCE,
+        url: "/showcase/" + id
+    });
+    google.maps.event.addListener(marker, 'click', function () {
+        window.location.href = marker.url;
+    });
+}
 function centerMap(map) {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
