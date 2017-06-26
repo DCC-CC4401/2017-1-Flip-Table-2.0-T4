@@ -205,12 +205,12 @@
                     {% if user.is_authenticated and user.id == seller.id %}
                         <div class='row center'>
                             <a class=' btn btn-large waves-effect button teal'
-                                    {#                               href="{% url 'showcase:create_dish' user.id %}">Agregar#}
-                               href="#">Agregar
+                                                                   href="{% url 'showcase:dish_create' user.id %}">Agregar
                                 Item</a>
                         </div>
                     {% endif %}
                 </div>
+            </div>
             </div>
         </div>
     </main>

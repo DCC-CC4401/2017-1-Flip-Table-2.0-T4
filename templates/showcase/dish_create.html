@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% load staticfiles %}
+
+    <main>
+
+        <div class="section"></div>
+
+        <h4 class="teal-text" style="text-align: center;">Agregar Item</h4>
+        <div class="section"></div>
+
+        <div class="container">
+            <div class="z-depth-1 grey lighten-4 row"
+                 style="margin-left: 2%; margin-right: 2%; padding: 30px 30px 0px 30px; border: 1px solid #EEE;">
+
+                <form class="col s12 m12" role="form" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class='row'>
+                        <div class='col s12 m12'>
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        {% if error_message %}
+                            <h5 style="color: red; text-align: center">{{ error_message }}
+                            </h5>
+                        {% endif %}
+                        <div class='input-field col s12 m12'>
+                            &ensp;Nombre del producto:
+                            <div class="input-field inline ">
+                                {{ form.name.errors }}
+                                <label style="text-align: center" for={{ form.name.id_for_label }}></label>
+                                {{ form.name }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class='row'>
+                        <div class='input-field col s12 m12'>
+                            &ensp;Precio del producto:
+                            <div class="input-field inline">
+                                {{ form.price.errors }}
+                                <label style="text-align: center" for={{ form.price.id_for_label }}></label>
+                                {{ form.price }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='input-field col s12 m12'>
+                            &ensp;Stock del producto:
+                            <div class="input-field inline">
+                                {{ form.stock.errors }}
+                                <label style="text-align: center" for={{ form.stock.id_for_label }}></label>
+                                {{ form.stock }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <div class="input-field col s12 m12">
+                                <i class="material-icons prefix">&emsp;mode_edit</i>
+                                {{ form.description.errors }}
+                                <label for={{ form.description.id_for_label }}>&emsp;Descripción</label>
+                                {{ form.description }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% load image_filters %}
+                    <p>Selecciona un ícono:</p>
+                    {% for choice in form.choices %}
+                        {{ choice.tag }}
+                        {% with i=forloop.counter|stringformat:"s" %}
+                            {% with form|choice_value:i as image_url %}
+                                <label for="{{ choice.id_for_label }}">
+                                    <img class="circle" style="max-width: 50px;"
+                                         src="{% static "img/"|add:image_url %}">
+                                </label>
+                            {% endwith %}
+                        {% endwith %}
+                    {% endfor %}
+
+                    <p>{{ form.image.errors }}</p>
+                    <p>Imagen del producto:</p>
+                    <p>{{ form.image }}</p>
+
+                    <div class='row center'>
+                        <input id="create_dish" type="submit" style="display: none">
+                        <label for="create_dish" class='center l5 offset-l4 btn btn-large waves-effect button teal'>Agregar<i
+                                class="material-icons right">send</i></label>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </main>
+{% endblock %}
