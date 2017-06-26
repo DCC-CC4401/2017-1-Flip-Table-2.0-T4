@@ -21,6 +21,9 @@ urlpatterns = [
 
     url(r'^(?P<pk>[0-9]+)/stock/$', StockView.as_view(), name='stock'),
 
+    # /showcase/<seller_id>/checkin
+    url(r'^(?P<seller_id>[0-9]+)/check_in/$', views.check_in, name='check_in'),
+
     url(r'^statistics/$', views.statistics, name='statistics'),
 
     # /showcase/<seller_id>/favorite
