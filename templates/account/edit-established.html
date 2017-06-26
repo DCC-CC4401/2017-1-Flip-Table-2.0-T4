@@ -1,0 +1,59 @@
+{% extends 'edit_base.html' %}
+{% block body %}
+    {% load staticfiles %}
+
+    <div class="row">
+        <div class="col s6">
+            {{ form.start.errors }}
+        </div>
+
+        <div class="col s6">
+            {{ form.end.errors }}
+        </div>
+
+        <div class="input-field col s6">
+            <i class="material-icons prefix">alarm</i>
+
+            <label for="{{ form.start.id_for_label }}">Hora inicial</label>
+            {{ form.start }}
+        </div>
+        <div class="input-field col s6">
+            <i class="material-icons prefix">alarm</i>
+
+            <label for="{{ form.end.id_for_label }}">Hora final</label>
+            {{ form.end }}
+        </div>
+    </div>
+    <div class='row'>
+        Seleccione sus formas de pago:
+        <p>
+            {{ form.cash.errors }}
+            {{ form.cash }}
+            <label for="{{ form.cash.id_for_label }}">Efectivo</label>
+        </p>
+        <p>
+            {{ form.credit.errors }}
+            {{ form.credit }}
+            <label for="{{ form.credit.id_for_label }}">Tarjeta de Crédito</label>
+
+        </p>
+        <p>
+            {{ form.debit.errors }}
+            {{ form.debit }}
+            <label for="{{ form.debit.id_for_label }}">Tarjeta de Débito</label>
+        </p>
+        <p>
+            {{ form.social.errors }}
+            {{ form.social }}
+            <label for="{{ form.social.id_for_label }}">Tarjeta Junaeb</label>
+        </p>
+    </div>
+
+{% endblock %}
+
+{% block established %}
+    value="#" disabled selected
+{% endblock %}
+
+{% block default %}
+{% endblock %}

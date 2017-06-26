@@ -72,6 +72,18 @@ class EstablishedUpdateView(UpdateView):
         return reverse('homepage:index')
 
 
+@login_required(login_url='/account/login')
+def edit_user(request, pk):
+    if Peddler.objects.filter(id=pk).exists():
+        return redirect('account:edit-peddler', pk)
+    elif Client.objects.filter(id=pk).exists():
+        return redirect('account:edit-client', pk)
+    elif Established.objects.filter(id=pk).exists():
+        return redirect('account:edit-established',pk)
+    else:
+        return redirect('homepage:index')
+
+
 def success(request, algo):
     messages.add_message(request, messages.SUCCESS, "¡Has sido registrado con éxito!")
     return redirect('homepage:index')
