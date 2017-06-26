@@ -45,12 +45,12 @@ class DishCreateView(CreateView):
     # def get_form_kwargs(self):
     #     # pass "user" keyword argument with the current user to your form
     #     kwargs = super(DishCreateView, self).get_form_kwargs()
-    #     kwargs['seller'] = get_object_or_404(Seller, pk=self.kwargs.get(self.pk_url_kwarg))
+    #     kwargs['icon'] = "static/img/" + dict(self.fields['choices'].choices)[form.cleaned_data['choices']]
     #     return kwargs
 
     def form_valid(self, form):
         form.instance.seller = get_object_or_404(Seller, pk=self.kwargs.get(self.pk_url_kwarg))
-        form.instance.icon = "static/img/" + dict(form.fields['choices'].choices)[form.cleaned_data['choices']]
+        form.instance.icon = "img/" + dict(form.fields['choices'].choices)[form.cleaned_data['choices']]
         return super(DishCreateView, self).form_valid(form)
 
     def get_success_url(self):
