@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 class Account(User):
     image = models.ImageField()
+    lt = models.FloatField(default=False)
+    lng = models.FloatField(default=False)
 
     def __str__(self):
         return "Account - " + self.username

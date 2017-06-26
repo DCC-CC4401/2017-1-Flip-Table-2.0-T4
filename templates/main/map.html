@@ -1,15 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-    <main>
-    <div class='row'>
-    <div class = "col s12 m12 l12">
-    <img class='activator responsive-img center-block' src="/static/media/mapa.png" alt="Planets" usemap="#vendedoresMap">
-        <map name="vendedoresMap">
-          <area shape="circle" coords="555,233,25" id="vendedor1">
-          <area shape="circle" coords="501,337,25" id="vendedor2">
-        </map>
-     </div>
-     </div>
-
-    </main>
+    {% load easy_maps_tags %}
+    {% easy_map "Chile, Santiago, Beauchef 850" 500 500 %}
 {% endblock %}

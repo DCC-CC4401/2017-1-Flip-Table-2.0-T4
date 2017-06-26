@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.urls import reverse
-
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
-from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm, ClientUpdateForm
-from account.models import Client
+from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm
+from account.models import Client, Peddler, Established
 
 
 class AccountCreateView(TemplateView):
@@ -22,9 +23,16 @@ class ClientCreateView(CreateView):
 
 class ClientUpdateView(UpdateView):
     model = Client
-    template_name = 'account/edit-profile.html'
-    form_class = ClientUpdateForm
+    template_name = 'account/edit-client.html'
+    fields = ['first_name', 'last_name', 'email', 'f_peddler', 'f_established', 'image']
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.image = form.cleaned_data['image']
+        print(form.cleaned_data)
+        print(super(ClientUpdateView, self).get_form_class())
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse('homepage:index')
@@ -38,6 +46,15 @@ class PeddlerCreateView(CreateView):
         return reverse('homepage:index')
 
 
+class PeddlerUpdateView(UpdateView):
+    model = Peddler
+    template_name = 'account/edit-base.html'
+    fields = ['first_name', 'last_name', 'email', 'image', 'cash', 'credit', 'debit', 'social']
+
+    def get_success_url(self):
+        return reverse('homepage:index')
+
+
 class EstablishedCreateView(CreateView):
     template_name = 'account/register_established.html'
     form_class = EstablishedCreateForm
@@ -46,23 +63,27 @@ class EstablishedCreateView(CreateView):
         return reverse('homepage:index')
 
 
-def editarPerfilAlumno(request):
-    avatar = request.session['avatar']
-    id = request.session['id']
-    nombre = request.session['nombre']
-    favoritos = []
-    nombres = []
-    for fav in Favoritos.objects.all():
-        if id == fav.idAlumno:
-            favoritos.append(fav.idVendedor)
-            vendedor = Usuario.objects.filter(id=fav.idVendedor).get()
-            nombre = vendedor.nombre
-            nombres.append(nombre)
-    return render(request, 'main/../templates/account/edit-profile.html',
-                  {"id": id, "avatarSesion": avatar, "nombre": nombre, "favoritos": favoritos, "nombres": nombres,
-                   "nombresesion": request.session['nombre']})
+class EstablishedUpdateView(UpdateView):
+    model = Established
+    template_name = 'account/edit-base.html'
+    fields = ['first_name', 'last_name', 'email', 'image', 'cash', 'credit', 'debit', 'social', 'start', 'end']
+
+    def get_success_url(self):
+        return reverse('homepage:index')
 
 
 def success(request, algo):
     messages.add_message(request, messages.SUCCESS, "¡Has sido registrado con éxito!")
     return redirect('homepage:index')
+
+
+@login_required(login_url='/account/login')
+def delete_user(request):
+    return render(request, 'account/delete.html')
+
+
+@login_required(login_url='/account/login')
+def confirm_deleted(request):
+    request.user.delete()
+    messages.add_message(request, messages.SUCCESS, "Usuario eliminado exitosamente")
+    return render(request, 'account/deleted_confirmation.html')

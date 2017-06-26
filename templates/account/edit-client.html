@@ -1,0 +1,42 @@
+{% extends 'account/edit-base.html' %}
+{% block body %}
+
+    {% load staticfiles %}
+    {{ form.non_field_errors }}
+    <!--div class="section"></div>
+
+    <h4 class="teal-text" style="text-align: center;">Editar perfil</h4>
+
+    <div class="container">
+        <div class="z-depth-1 grey lighten-4 row"
+             style="margin-left: 5%; margin-right: 5%; padding: 32px 48px 0px 48px; border: 1px solid #EEE;"-->
+    <div class="row col s12 m12">
+        <h6>Editar favoritos:</h6>
+        {% for seller in form.instance.f_peddler.all %}
+            <li>
+                <div class="switch center" style="margin-left: 10px;" id="checkin">
+                    <label for="{{ form.f_peddler.id_for_label }}">
+                        {{ seller.first_name }}
+                        <img src="{{ seller.image.url }}" width="25%"/>
+                        <input id="available_switch" type="checkbox" checked>
+                        <span class="lever"></span>
+
+                    </label>
+                </div>
+            </li>
+        {% endfor %}
+        {% for seller in form.instance.f_established.all %}
+            <li>
+                <div class="switch center" style="margin-left: 10px;" id="checkin">
+                    <label for="{{ form.f_peddler.id_for_label }}">
+                        {{ seller.first_name }}
+                        <img src="{{ seller.image.url }}" width="25%"/>
+                        <input id="available_switch" type="checkbox" checked>
+                        <span class="lever"></span>
+
+                    </label>
+                </div>
+            </li>
+        {% endfor %}
+    </div>
+{% endblock %}

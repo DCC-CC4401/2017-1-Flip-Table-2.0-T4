@@ -8,6 +8,8 @@ app_name = 'account'
 urlpatterns = [
 
     # account/
+    url(r'^delete/$', views.delete_user, name='delete'),
+    url(r'^delete/confirmation/$', views.confirm_deleted, name='confirm_deleted'),
     url(r'^register/$', AccountCreateView.as_view(), name='register'),
     url(r'^register/client/$', ClientCreateView.as_view(), name='register_client'),
     url(r'^register/peddler/$', PeddlerCreateView.as_view(), name='register_peddler'),

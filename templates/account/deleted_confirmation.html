@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="section"></div>
+    <main>
+        <div class="section"></div>
+
+        <h3 style="text-align: center;" class="teal-text">Eliminar cuenta</h3>
+
+        <div class="container">
+            <div class="z-depth-1 grey lighten-4 row"
+                 style="margin-left: 2%; margin-right: 2%; padding: 30px 30px 0 30px; border: 1px solid #EEE;">
+
+                <div class="section" align="center">
+                    <h4 style="align-content: center">Tu cuenta ha sido eliminada con éxito</h4>
+                </div>
+
+                <form class="col s12" method="post">
+                    <div class='row center' style="align-content: center">
+                        <a href="{% url 'homepage:index' %}">
+                            <button type='button' class='center l6 offset-l3 btn btn-large waves-effect teal'>
+                                Volver al inicio
+                            </button>
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="section"></div>
+        <div class="section"></div>
+    </main>
+{% endblock %}
