@@ -5,33 +5,9 @@ from django.utils import timezone
 from django.utils.formats import get_format
 from django.contrib.auth.models import User
 
-class Usuario(models.Model):
-    nombre = models.CharField(max_length=200)
-    email = models.CharField(max_length=200)
-    tipos = ((0, 'admin'), (1, 'alumno'), (2, 'fijo'), (3, 'ambulante'))
-    tipo = models.IntegerField(choices=tipos)
-    avatar = models.ImageField(upload_to='avatars')
-    contraseña = models.CharField(max_length=200)
-    activo = models.BooleanField(default=False, blank=True)
-    litaFormasDePago = (
-        (0, 'Efectivo'),
-        (1, 'Tarjeta de Crédito'),
-        (2, 'Tarjeta de Débito'),
-        (3, 'Tarjeta Junaeb'),
-    )
-    formasDePago = MultiSelectField(choices=litaFormasDePago, null=True, blank=True)
-    horarioIni = models.CharField(max_length=200, blank=True, null=True)
-    horarioFin = models.CharField(max_length=200, blank=True, null=True)
-
-    def __str__(self):
-        return self.nombre
-
-    class Meta:
-        db_table = 'usuario'
-
 
 class Comida(models.Model):
-    idVendedor = models.IntegerField(default=0);
+    idVendedor = models.IntegerField(default=0)
     nombre = models.CharField(max_length=200, primary_key=True)
     listaCategorias = (
         (0, 'Cerdo'),

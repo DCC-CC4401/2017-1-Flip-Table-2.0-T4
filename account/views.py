@@ -1,11 +1,11 @@
-import datetime
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic import TemplateView
 from django.urls import reverse
 
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm
+from account.models import Client
 
 
 class AccountCreateView(TemplateView):
@@ -15,6 +15,15 @@ class AccountCreateView(TemplateView):
 class ClientCreateView(CreateView):
     template_name = 'account/register_client.html'
     form_class = ClientCreateForm
+
+    def get_success_url(self):
+        return reverse('homepage:index')
+
+
+class ClientUpdateView(UpdateView):
+    model = Client
+    template_name_suffix = '_update_form'
+    fields = ['first_name', 'last_name', 'email', 'image', 'favorite_peddlers', 'favorite_established']
 
     def get_success_url(self):
         return reverse('homepage:index')
@@ -36,6 +45,7 @@ class EstablishedCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('homepage:index')
+
 
 def editarPerfilAlumno(request):
     avatar = request.session['avatar']

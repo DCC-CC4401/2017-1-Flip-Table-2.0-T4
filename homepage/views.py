@@ -1,25 +1,13 @@
 import datetime
-from django.shortcuts import render
-from django.views.generic import TemplateView
-from django.utils import timezone
-from .forms import LoginForm
-from .forms import GestionProductosForm
-from .forms import editarProductosForm
-from .models import Usuario
-from .models import Comida
-from .models import Favoritos
-from .models import Imagen
-from .models import Transacciones
-from django.db.models import Count
-from django.db.models import Sum
-from django.shortcuts import render_to_response
-from django.http import HttpResponse
 import simplejson
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.http import JsonResponse
-from django.core import serializers
+from account.models import Seller
+from .forms import GestionProductosForm, editarProductosForm
+from .models import Comida, Favoritos, Imagen, Transacciones
+from django.db.models import Count, Sum
+from django.utils import timezone
+from django.shortcuts import render
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from multiselectfield import MultiSelectField
 from django.core.files.storage import default_storage
 
 from django.views.generic.edit import FormView
@@ -27,50 +15,8 @@ from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreate
 
 
 def index(request):
-    vendedores = []
-    # lista de vendedores
-    for p in Usuario.objects.all():
-        if p.tipo == 2 or p.tipo == 3:
-            vendedores.append(p.id)
-    vendedoresJson = simplejson.dumps(vendedores)
-    # actualizar vendedores fijos
-    for p in Usuario.objects.all():
-        if p.tipo == 2:
-            hi = p.horarioIni
-            hf = p.horarioFin
-            horai = hi[:2]
-            horaf = hf[:2]
-            mini = hi[3:5]
-            minf = hf[3:5]
-            print(datetime.datetime.now().time())
-            tiempo = str(datetime.datetime.now().time())
-            print(tiempo)
-            hora = tiempo[:2]
-            minutos = tiempo[3:5]
-            estado = ""
-            if horaf >= hora and hora >= horai:
-                if horai == hora:
-                    if minf >= minutos and minutos >= mini:
-                        estado = "activo"
-                    else:
-                        estado = "inactivo"
-                elif horaf == hora:
-                    if minf >= minutos and minutos >= mini:
-                        estado = "activo"
-                    else:
-                        estado = "inactivo"
-                else:
-                    estado = "activo"
-            else:
-                estado = "inactivo"
-            if estado == "activo":
-                Usuario.objects.filter(nombre=p.nombre).update(activo=1)
-            else:
-                Usuario.objects.filter(nombre=p.nombre).update(activo=0)
-
-    vendedoresJson = simplejson.dumps(vendedores)
-
-    return render(request, 'main/map.html', {"vendedores": vendedoresJson})
+    vendedores = Seller.objects.all()
+    return render(request, 'main/map.html', {'vendedores':vendedores})
 
 
 def fijoDashboard(request):
