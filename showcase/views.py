@@ -14,7 +14,7 @@ from django.views.generic import DetailView
 from account.models import Client, Peddler, Established, Seller
 from showcase.models import Dish
 
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import FormView, CreateView, UpdateView, DeleteView
 
 from showcase.forms import DishForm
 
@@ -38,15 +38,9 @@ class SellerDetailView(DetailView):
 
 
 class DishCreateView(CreateView):
-    template_name = 'showcase/dish_create.html'
+    template_name = 'showcase/dish.html'
     form_class = DishForm
     model = Dish
-
-    # def get_form_kwargs(self):
-    #     # pass "user" keyword argument with the current user to your form
-    #     kwargs = super(DishCreateView, self).get_form_kwargs()
-    #     kwargs['icon'] = "static/img/" + dict(self.fields['choices'].choices)[form.cleaned_data['choices']]
-    #     return kwargs
 
     def form_valid(self, form):
         form.instance.seller = get_object_or_404(Seller, pk=self.kwargs.get(self.pk_url_kwarg))
@@ -57,28 +51,21 @@ class DishCreateView(CreateView):
         return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
 
 
-def create_dish(request, seller_id):
-    form = DishForm(request.POST or None, request.FILES or None)
-    user = get_object_or_404(User, id=seller_id)
-    if form.is_valid():
-        dishes = user.dish_set.all()
-        for dish in dishes:
-            if dish.name == form.cleaned_data['name']:
-                context = {
-                    'form': form,
-                    'error_message': 'Ya tienes un plato con este nombre',
-                }
-                return render(request, 'create_dish.html', context)
-        dish = form.save(commit=False)
-        dish.icon = "default/" + dict(form.fields['choices'].choices)[form.cleaned_data['choices']]
-        dish.user = user
-        dish.image = request.FILES['image']
-        dish.save()
-        return redirect('showcase:showcase', seller_id)
-    context = {
-        'form': form,
-    }
-    return render(request, 'create_dish.html', context)
+class DishUpdateView(UpdateView):
+    template_name = 'showcase/dish.html'
+    form_class = DishForm
+    model = Dish
+
+    def get_object(self, queryset=None):
+        return Dish.objects.get(pk=self.kwargs['dish_id'])
+
+    def form_valid(self, form):
+        form.instance.seller = get_object_or_404(Seller, pk=self.kwargs.get(self.pk_url_kwarg))
+        form.instance.icon = "img/" + dict(form.fields['choices'].choices)[form.cleaned_data['choices']]
+        return super(DishUpdateView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
 
 
 def favorite_seller(request, seller_id):
