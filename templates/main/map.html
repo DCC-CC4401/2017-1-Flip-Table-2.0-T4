@@ -12,11 +12,15 @@
                 {% if seller.is_available %}
                     {% if seller in favorites %}
                         <script>
-                            addFavoriteMarker(seller.lt, seller.lng, seller.id)
+                            $(document).ready(function () {
+                                addFavoriteMarker(seller.lt, seller.lng, seller.id);
+                            });
                         </script>
                     {% else %}
                         <script>
-                            addMarker(seller.lt, seller.lng, seller.id)
+                            $(document).ready(function () {
+                                addMarker(seller.lt, seller.lng, seller.id);
+                            });
                         </script>
                     {% endif %}
                 {% endif %}
