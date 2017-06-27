@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+    <main>
     <div class="container">
         <script
                 src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB2ECHh4w8C_romdoQJxWZ7orqFXYRzLOc&sensor=false">
@@ -20,7 +21,7 @@
                 </script>
             {% endif %}
         {% endfor %}
-        <div id="googleMap" style="position: relative; overflow: hidden; width: 90vh; height: 93vh">
+        <div id="googleMap" style="position: fixed; overflow: hidden; width: 102.5%; height: 93vh">
             <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
                 <div class="gm-err-container">
                     <div class="gm-err-content">
@@ -39,4 +40,5 @@
             </div>
         </div>
     </div>
+    <main>
 {% endblock %}
