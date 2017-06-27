@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
+import datetime
 
 
 class Account(User):
@@ -48,7 +48,15 @@ class Established(Seller):
         verbose_name_plural = 'Established'
 
     def is_available(self):
-        return self.start <= datetime.time(datetime.now()) <= self.end
+        now = datetime.datetime.now().time()
+        is_available = False
+        if self.start <= self.end:
+            if self.start <= now < self.end:
+                is_available = True
+        else:
+            if self.start <= now or now < self.end:
+                is_available = True
+        return is_available
 
 
 class Client(Account):

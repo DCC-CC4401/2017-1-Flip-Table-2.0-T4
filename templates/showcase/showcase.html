@@ -160,8 +160,7 @@
                                                 </li>
                                                 <li>
                                                     {% if in_own_showcase %}
-                                                        {#                                                        <form action="{% url 'showcase:showcase' seller.id %}"#}
-                                                        <form action="#"
+                                                        <form action="{% url 'showcase:stock' seller.id %}"
                                                               method="post">
                                                             {% csrf_token %}
                                                             <div>Stock:</div>

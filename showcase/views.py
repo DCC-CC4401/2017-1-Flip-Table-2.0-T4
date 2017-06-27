@@ -26,7 +26,8 @@ class SellerDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SellerDetailView, self).get_context_data(**kwargs)
         context['is_peddler'] = hasattr(self.object, 'peddler')
-        context['is_client'] = self.request.user.is_authenticated() and Client.objects.filter(pk=self.request.user.id).exists()
+        context['is_client'] = self.request.user.is_authenticated() and Client.objects.filter(
+            pk=self.request.user.id).exists()
         context['is_favorite'] = self.object.client_set.filter(pk=self.request.user.id).exists()
         context['in_own_showcase'] = self.request.user.is_authenticated() and self.request.user.id == self.object.id
         context['dishes'] = self.object.dish_set.all()
@@ -47,7 +48,7 @@ class SellerDetailView(DetailView):
             start = self.object.start
             end = self.object.end
             if start <= end:
-                if start <= now and now < end:
+                if start <= now < end:
                     is_available = True
             else:
                 if start <= now or now < end:
@@ -56,6 +57,7 @@ class SellerDetailView(DetailView):
             is_available = False
         return is_available
 
+<<<<<<< HEAD
 # class Favorite(View):
 #     def get(self, request, pk):
 #         client = get_object_or_404(Client, pk=pk)
@@ -73,6 +75,8 @@ class SellerDetailView(DetailView):
 #                 client.f_established.add(seller)
 #         client.save()
 #         return HttpResponse(status=204)
+=======
+>>>>>>> origin/refactor
 
 class FavoriteView(View):
     def get(self, request, pk):
@@ -92,23 +96,22 @@ class FavoriteView(View):
         client.save()
         return HttpResponse(status=204)
 
-def favorite_seller(request, seller_id):
-    # user = get_object_or_404(User, id=seller_id)
-    # client = get_object_or_404(Client, user=request.user)
-    # if Peddler.objects.filter(user=user).exists():
-    #     seller = Peddler.objects.get(user=user)
-    #     if client.f_peddler.filter(id=seller.id).exists():
-    #         client.f_peddler.remove(seller)
-    #     else:
-    #         client.f_peddler.add(seller)
-    # elif Established.objects.filter(user=user).exists():
-    #     seller = Established.objects.get(user=user)
-    #     if client.f_established.filter(id=seller.id).exists():
-    #         client.f_established.remove(seller)
-    #     else:
-    #         client.f_established.add(seller)
-    # client.save()
-    return HttpResponse(status=204)
+
+class StockView(View):
+    def post(self, request, pk):
+        new_stock = int(request.POST.get("stock_count", ""))
+        dish_id = request.POST.get("dish_id", "")
+        dish = get_object_or_404(Dish, id=dish_id)
+        old_stock = dish.stock
+        if new_stock < old_stock:
+            dish.sold = old_stock - new_stock
+            # seller = User.objects.get(id=pk)
+            # transaction = Transaction(user=seller, dish=dish, price=dish.price, quantity=dish.sold)
+            # transaction.save()
+        dish.stock = new_stock
+        dish.save()
+        dish.save()
+        return HttpResponse(status=204)
 
 
 class DishCreateView(CreateView):
@@ -165,6 +168,7 @@ class DishDeleteView(DeleteView):
 
     def get_success_url(self):
         return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
+
 
 def statistics(request):
     return render(request, 'showcase/statistics.html')
