@@ -27,7 +27,8 @@ def get_context(request):
 
         if Account.objects.filter(pk=account.pk).exists():
             account = Account.objects.get(pk=account.pk)
-    print(favorites)
+    print(peddlers)
+    print(established)
     return {'account': account, 'is_client': is_client, 'is_authenticated': is_authenticated, 'peddlers': peddlers,
             'established': established, 'favorites': favorites, 'only_favs':only_favs}
 
@@ -39,10 +40,10 @@ def update_pos(request):
     lng = pos['longitude']
     if Account.objects.filter(pk=request.user.pk).exists():
         acc = Account.objects.get(pk=request.user.pk)
+        if Seller.objects.filter(pk=request.user.pk).exists():
+            lng -= random.random() * .001 * (1 if random.random() > 0.5 else -1)
+            lt -= random.random() * .001 * (1 if random.random() > 0.5 else -1)
         acc.lt = lt
         acc.lng = lng
-        if Seller.objects.filter(pk=request.user.pk).exists():
-            acc.lng -= random.random() * .001 * (1 if random.random() > 0.5 else -1)
-            acc.lt -= random.random() * .001 * (1 if random.random() > 0.5 else -1)
         acc.save()
     return {'pos': pos, 'lt':lt, 'lng':lng}
