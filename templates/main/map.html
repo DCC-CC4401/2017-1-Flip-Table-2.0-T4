@@ -5,27 +5,191 @@
             <script
                     src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB2ECHh4w8C_romdoQJxWZ7orqFXYRzLOc&sensor=false">
             </script>
-            <script src="../../static/js/mapControl.js">
-            </script>
+            <script>
 
-            {% for seller in sellers %}
-                {% if seller.is_available %}
-                    {% if seller in favorites %}
-                        <script>
-                            $(document).ready(function () {
-                                addFavoriteMarker(seller.lt, seller.lng, seller.id);
+                var myCenter = new google.maps.LatLng(-33.457684, -70.665032);
+                var user;
+                var pos;
+                var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+                function initialize() {
+                    var markers = new Array();
+                    var mapProp = {
+                        center: myCenter,
+                        zoom: 18,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+                    user = new google.maps.Marker({
+                        position: {lat: {{ account.lt }}, lng: {{ account.lng }}},
+                        icon: iconBase + 'target.png'
+                    });
+                    var i = 0;
+                    user.setMap(map);
+                    var id;
+                    {% for seller in peddlers %}
+                        {% if seller.pk is not account.pk and seller.is_available %}
+                            id = {{ seller.pk }};
+                            var id_str = id.toString();
+                            {% if seller.pk in favorites %}
+                                markers.push(new google.maps.Marker({
+                                    position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
+                                    map: map,
+                                    icon: iconBase + 'star.png',
+                                    url: '/showcase/' + id_str
+                                }));
+                            {% else %}
+                                markers.push(new google.maps.Marker({
+                                    position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
+                                    map: map,
+                                    icon: iconBase + 'dining.png',
+                                    url: '/showcase/' + id_str
+                                }));
+                            {% endif %}
+                            google.maps.event.addListener(markers[i], 'click', function () {
+                                window.location.href = this.url;
                             });
-                        </script>
-                    {% else %}
-                        <script>
-                            $(document).ready(function () {
-                                addMarker(seller.lt, seller.lng, seller.id);
+                            i = i + 1;
+                        {% endif %}
+                    {% endfor %}
+                    {% for seller in established %}
+                        {% if seller.pk is not account.pk and seller.is_available %}
+                            id = {{ seller.pk }};
+                            var id_str = id.toString();
+                            {% if seller.pk in favorites %}
+                                markers.push(new google.maps.Marker({
+                                    position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
+                                    map: map,
+                                    icon: iconBase + 'star.png',
+                                    url: '/showcase/' + id_str
+                                }));
+                            {% else %}
+                                markers.push(new google.maps.Marker({
+                                    position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
+                                    map: map,
+                                    icon: iconBase + 'dining.png',
+                                    url: '/showcase/' + id_str
+                                }));
+                            {% endif %}
+                            google.maps.event.addListener(markers[i], 'click', function () {
+                                window.location.href = this.url;
                             });
-                        </script>
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
+                            i = i + 1;
+                        {% endif %}
+                    {% endfor %}
+                    centerMap(map);
+                    var centerControlDiv = document.createElement('div');
+                    var centerControl = new CenterControl(centerControlDiv, map);
+                    centerControlDiv.index = 1;
+                    map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+                }
+
+                function centerMap(map) {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            function (position) {
+                                var pos = {
+                                    lat: {{ account.lt }},
+                                    lng: {{ account.lng }}
+                                };
+                                //infoWindow.setPosition(pos);
+                                user.setPosition(pos);
+                                //infoWindow.setContent('Location found.');
+                                map.setCenter(pos);
+                                map.setZoom(18);
+                            }
+                        );
+                    } else {
+                        // Browser doesn't support Geolocation
+                        //handleLocationError(false, infoWindow, map.getCenter());
+                    }
+                }
+
+                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+                }
+
+                function CenterControl(controlDiv, map) {
+                    // Set CSS for the control border.
+                    var controlUI = document.createElement('div');
+                    controlUI.style.backgroundColor = '#fff';
+                    controlUI.style.border = '2px solid #fff';
+                    controlUI.style.borderRadius = '3px';
+                    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                    controlUI.style.cursor = 'pointer';
+                    controlUI.style.marginBottom = '22px';
+                    controlUI.style.textAlign = 'center';
+                    controlUI.title = 'Click to recenter the map';
+                    controlDiv.appendChild(controlUI);
+                    // Set CSS for the control interior.
+                    var controlText = document.createElement('div');
+                    controlText.style.color = 'rgb(25,25,25)';
+                    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                    controlText.style.fontSize = '16px';
+                    controlText.style.lineHeight = '38px';
+                    controlText.style.paddingLeft = '5px';
+                    controlText.style.paddingRight = '5px';
+                    controlText.innerHTML = 'Center Map';
+                    controlUI.appendChild(controlText);
+                    // Setup the click event listeners: simply set the map to Chicago.
+                    controlUI.addEventListener('click', function () {
+                        centerMap(map);
+                    });
+                }
+
+                google.maps.event.addDomListener(window, 'load', initialize);
+            </script>
             <div id="googleMap" style="height: 90vh; position: relative; overflow: hidden; width: 100%;"/>
         </div>
     </main>
 {% endblock %}
+{% for seller in peddlers %}
+    {% if seller.is_available %}
+        {% if seller.pk in favorites %}
+            pos = new google.maps.LatLng({{ seller.lt }}, {{ seller.lng }});
+            markers.push(new google.maps.Marker({
+            position: pos,
+            icon: iconBase + 'star.png',
+            animation: google.maps.Animation.BOUNCE,
+            url: "/showcase/" + id,
+            map: map
+            }));
+        {% else %}
+            pos = new google.maps.LatLng({{ seller.lt }}, {{ seller.lng }});
+            markers.push(new google.maps.Marker({
+            position: pos,
+            icon: iconBase + 'dining.png',
+            url: "/showcase/" + id,
+            map: map
+            }));
+        {% endif %}
+    {% endif %}
+{% endfor %}
+{% for seller in established %}
+    {% if seller.is_available %}
+        {% if seller.pk in favorites %}
+            pos = new google.maps.LatLng({{ seller.lt }}, {{ seller.lng }});
+            markers.push(new google.maps.Marker({
+            position: pos,
+            icon: iconBase + 'star.png',
+            animation: google.maps.Animation.BOUNCE,
+            url: "/showcase/" + id,
+            map: map
+            }));
+        {% else %}
+            pos = new google.maps.LatLng({{ seller.lt }}, {{ seller.lng }});
+            markers.push(new google.maps.Marker({
+            position: pos,
+            icon: iconBase + 'dining.png',
+            url: "/showcase/" + id,
+            map: map
+            }));
+        {% endif %}
+        google.maps.event.addListener(markers[i], 'click', function () {
+        window.location.href = markers[i].url;
+        });
+        i = i + 1;
+    {% endif %}
+{% endfor %}

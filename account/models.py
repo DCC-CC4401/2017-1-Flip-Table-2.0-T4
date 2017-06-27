@@ -62,6 +62,7 @@ class Established(Seller):
 class Client(Account):
     f_peddler = models.ManyToManyField(Peddler, blank=True)
     f_established = models.ManyToManyField(Established, blank=True)
+    only_favs = models.BooleanField(default=False)
 
     def __str__(self):
         return "Client - " + self.username

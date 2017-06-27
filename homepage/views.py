@@ -4,11 +4,11 @@ from account.models import Account
 from .forms import GestionProductosForm, editarProductosForm
 from django.db.models import Count, Sum
 from django.utils import timezone
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
-import requests as req
+from django.views import View
 
 from django.views.generic.edit import FormView
 from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm
@@ -16,6 +16,16 @@ from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreate
 
 def index(request):
     return render(request, 'main/map.html')
+
+class FavoriteFilter(View):
+    def get(self, request, id):
+        profile = get_object_or_404(Account, id=id)
+        if profile.only_favs:
+            profile.only_favs
+        else:
+            profile.only_favs
+        profile.save()
+        return redirect('homepage:index')
 
 def gestionproductos(request):
     if request.session.has_key('id'):

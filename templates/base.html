@@ -65,11 +65,34 @@
                 <li><a href="{% url 'account:logout' %}"><i class="material-icons">exit_to_app</i>Cerrar Sesión</a></li>
             {% endif %}
 
-            <!--
-            <li><div class="divider"></div></li>
-            -->
-
             <!-- Boton de vendedor activo -->
+
+            {% if is_client %}
+                {% block filter %}
+                    <li><a class="subheader">Filtros</a></li>
+                    <li>
+                        <div class="switch" style="margin-left: 10px;">
+                            <label>
+                                <input type="checkbox"><span class="lever"></span>Sólo mostrar favoritos
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="switch" style="margin-left: 10px;">
+                            <label>
+                                <input type="checkbox"><span class="lever"></span>Snacks
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="switch" style="margin-left: 10px;">
+                            <label>
+                                <input type="checkbox"><span class="lever"></span>Almuerzos
+                            </label>
+                        </div>
+                    </li>
+                {% endblock %}
+            {% endif %}
 
             {% if user.is_authenticated %}
                 {% if not is_client %}
@@ -82,10 +105,7 @@
 
             {% endblock %}
 
-            <!-- Boton de filtros -->
-            {% block filter %}
 
-            {% endblock %}
         </ul>
     </div>
 </nav>

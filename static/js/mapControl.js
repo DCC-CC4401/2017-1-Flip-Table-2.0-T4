@@ -24,6 +24,15 @@ function initialize() {
     });
     user.setMap(map);
     centerMap(map);
+    {% for seller in sellers %}
+        {% if seller.is_available %}
+            {% if seller in favorites %}
+                addFavoriteMarker(seller.lt, seller.lng, seller.id);
+            {% else %}
+                addMarker(seller.lt, seller.lng, seller.id);
+            {% endif %}
+        {% endif %}
+    {% endfor %}
     var centerControlDiv = document.createElement('div');
     var centerControl = new CenterControl(centerControlDiv, map);
     centerControlDiv.index = 1;
@@ -35,12 +44,12 @@ function addMarker(lt, lng, id) {
     var marker = new google.maps.Marker({
         position: pos,
         icon: iconBase + 'dining.png',
-        url: "/showcase/" + id
+        url: "/showcase/" + id,
+        map: map
     });
     google.maps.event.addListener(marker, 'click', function () {
         window.location.href = marker.url;
     });
-    marker.setMap(map);
     markers.push(marker)
 }
 
@@ -50,12 +59,12 @@ function addFavoriteMarker(lt, lng, id) {
         position: pos,
         icon: iconBase + 'star.png',
         animation: google.maps.Animation.BOUNCE,
-        url: "/showcase/" + id
+        url: "/showcase/" + id,
+        map: map
     });
     google.maps.event.addListener(marker, 'click', function () {
         window.location.href = marker.url;
     });
-    marker.setMap(map);
     markers.push(marker)
 }
 
