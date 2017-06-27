@@ -16,9 +16,11 @@ def get_context(request):
     is_authenticated = account.is_authenticated()
     peddlers = Peddler.objects.all()
     established = Established.objects.all()
+    only_favs = False
     if is_authenticated:
         try:
             client = Client.objects.get(pk=account.pk)
+            only_favs = client.only_favs
             is_client = True
         except:
             is_client = False
@@ -27,7 +29,7 @@ def get_context(request):
             account = Account.objects.get(pk=account.pk)
     print(favorites)
     return {'account': account, 'is_client': is_client, 'is_authenticated': is_authenticated, 'peddlers': peddlers,
-            'established': established, 'favorites': favorites}
+            'established': established, 'favorites': favorites, 'only_favs':only_favs}
 
 
 def update_pos(request):

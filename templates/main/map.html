@@ -38,7 +38,7 @@
                                     url: '/showcase/' + id_str
                                 }));
                             {% else %}
-                                {% if is_client and not account.only_favs %}
+                                {% if not only_favs %}
                                     markers.push(new google.maps.Marker({
                                         position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
                                         map: map,
@@ -67,7 +67,7 @@
                                     url: '/showcase/' + id_str
                                 }));
                             {% else %}
-                                {% if is_client and not account.only_favs %}
+                                {% if not only_favs %}
                                     markers.push(new google.maps.Marker({
                                         position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
                                         map: map,
