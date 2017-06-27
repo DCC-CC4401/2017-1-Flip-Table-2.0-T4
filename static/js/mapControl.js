@@ -2,20 +2,6 @@
  * Created by diego on 6/26/2017.
  */
 
-var image = {
-    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-    // The origin for this image is (0, 0).
-    origin: new google.maps.Point(0, 0),
-    // The anchor for this image is the base of the flagpole at (0, 32).
-    anchor: new google.maps.Point(0, 32)
-};
-
-var lineSymbol = {
-    path: google.maps.SymbolPath.CIRCLE,
-    scale: 8,
-    strokeColor: '#ffff00'
-};
-
 var shape = {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
     type: 'poly'
