@@ -15,10 +15,13 @@
     var channel = pusher.subscribe('police_channel');
     channel.bind('police_alert', function (data) {
         {% if is_peddler %}
-        var lt = {{ user.lt }},
-            lng = {{ lng }};
-        {% if  %}
-        alert(data.message);
+        var lt = {{ lt }},
+            lng = {{ lng }},
+            dis = ((lt-data.lt)^2 + (lng-data.lng)^2)^(1/2);
+            if (dis*0.001 < 15 ){
+                alert(data.message);}
+        {% endif %}
+        //alert(data.message);
     });
 </script>
 
@@ -90,11 +93,36 @@
             {% else %}
             {% endif %}
 
-            <!--
-            <li><div class="divider"></div></li>
-            -->
-
             <!-- Boton de vendedor activo -->
+
+            {% if is_client %}
+                {% block filter %}
+                    <li><a class="subheader">Filtros</a></li>
+                    <li>
+                        <div class="switch" style="margin-left: 10px;" id="checkin">
+                            <label for="available_switch">
+                                <input id="available_switch" type="checkbox" {% if only_favs %}checked{% endif %}
+                                       onclick='window.location.assign("{% url 'homepage:fav-filter' account.id %}")'>
+                                <span class="lever"></span>Favoritos
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="switch" style="margin-left: 10px;">
+                            <label>
+                                <input type="checkbox"><span class="lever"></span>Snacks
+                            </label>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="switch" style="margin-left: 10px;">
+                            <label>
+                                <input type="checkbox"><span class="lever"></span>Almuerzos
+                            </label>
+                        </div>
+                    </li>
+                {% endblock %}
+            {% endif %}
 
             {% if user.is_authenticated %}
                 {% if not is_client %}
@@ -107,10 +135,7 @@
 
             {% endblock %}
 
-            <!-- Boton de filtros -->
-            {% block filter %}
 
-            {% endblock %}
         </ul>
     </div>
 </nav>

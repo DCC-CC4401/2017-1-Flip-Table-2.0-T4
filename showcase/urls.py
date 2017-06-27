@@ -3,6 +3,7 @@ from showcase import views
 from showcase.views import SellerDetailView, DishCreateView, DishUpdateView, DishDeleteView, FavoriteView, StockView, \
     CheckIn
 
+
 app_name = 'showcase'
 
 urlpatterns = [
