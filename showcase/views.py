@@ -40,25 +40,6 @@ class SellerDetailView(DetailView):
         else:
             return get_object_or_404(Established, pk=seller_id)
 
-
-# class Favorite(View):
-#     def get(self, request, pk):
-#         client = get_object_or_404(Client, pk=pk)
-#         if Peddler.objects.filter(pk=pk).exists():
-#             seller = Peddler.objects.get(pk=pk)
-#             if client.f_peddler.filter(id=seller.id).exists():
-#                 client.f_peddler.remove(seller)
-#             else:
-#                 client.f_peddler.add(seller)
-#         else:
-#             seller = Established.objects.get(pk=pk)
-#             if client.f_established.filter(id=seller.id).exists():
-#                 client.f_established.remove(seller)
-#             else:
-#                 client.f_established.add(seller)
-#         client.save()
-#         return HttpResponse(status=204)
-
 class FavoriteView(View):
     def get(self, request, pk):
         client = get_object_or_404(Client, pk=request.user.id)
@@ -94,24 +75,6 @@ class StockView(View):
         dish.save()
         return HttpResponse(status=204)
 
-
-def favorite_seller(request, seller_id):
-    # user = get_object_or_404(User, id=seller_id)
-    # client = get_object_or_404(Client, user=request.user)
-    # if Peddler.objects.filter(user=user).exists():
-    #     seller = Peddler.objects.get(user=user)
-    #     if client.f_peddler.filter(id=seller.id).exists():
-    #         client.f_peddler.remove(seller)
-    #     else:
-    #         client.f_peddler.add(seller)
-    # elif Established.objects.filter(user=user).exists():
-    #     seller = Established.objects.get(user=user)
-    #     if client.f_established.filter(id=seller.id).exists():
-    #         client.f_established.remove(seller)
-    #     else:
-    #         client.f_established.add(seller)
-    # client.save()
-    return HttpResponse(status=204)
 
 
 class DishCreateView(CreateView):
