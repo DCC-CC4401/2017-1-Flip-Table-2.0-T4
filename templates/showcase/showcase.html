@@ -60,19 +60,11 @@
                         <div class="col s6 m3 l3 center-align" id="status">
                             <h4 class="center card-title flow-text text-darken-4">Estado</h4>
                             <p id="available" class="medium-small flow-text center
-                                {% if not is_peddler %}
-                                    {% if seller.is_available %}
-                                        light-green-text">Disponible
-                                    {% else %}
-                                        grey-text">No Disponible
-                                    {% endif %}
-                                {% else %}
-                                    {% if seller.is_available %}
-                                        light-green-text">Disponible
-                                    {% else %}
-                                        grey-text">No Disponible
-                                    {% endif %}
-                                {% endif %}
+                             {% if seller.is_available %}
+                                light-green-text">Disponible
+                            {% else %}
+                                grey-text">No Disponible
+                            {% endif %}
                             </p>
                         </div>
                         <div class="col s6 m3 l3 center-align">
