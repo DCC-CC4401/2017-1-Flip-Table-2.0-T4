@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
     <main>
-        <div class="container " style="padding-top: 15px">
+        <div class="container " style="height: 100%; width: 100%">
             <script
                     src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB2ECHh4w8C_romdoQJxWZ7orqFXYRzLOc&sensor=false">
             </script>
             <script src="../../static/js/mapControl.js">
             </script>
+
             {% for seller in peddlers %}
             {% if seller.is_available %}
                 <script>
@@ -21,7 +22,7 @@
                 </script>
             {% endif %}
         {% endfor %}
-            <div id="googleMap" style="height: 85vh; position: relative; overflow: hidden; width: 100%;">
+            <div id="googleMap" style="height: 90vh; position: relative; overflow: hidden; width: 100%;">
                 <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
                     <div class="gm-err-container">
                         <div class="gm-err-content">
