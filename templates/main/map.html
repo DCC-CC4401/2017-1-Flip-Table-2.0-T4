@@ -8,24 +8,24 @@
             <script src="../../static/js/mapControl.js">
             </script>
 
-            {% for seller in peddlers %}
-            {% if seller.is_available %}
-                <script>
-                addMarker(seller.lt, seller.lng, seller.id)
-                </script>
-            {% endif %}
-        {% endfor %}
-        {% for seller in established %}
-            {% if seller.is_available %}
-                <script>
-                addMarker(seller.lt, seller.lng, seller.id)
-                </script>
-            {% endif %}
-        {% endfor %}
-            <div id="googleMap" style="height: 90vh; position: relative; overflow: hidden; width: 100%;">
-                <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
-                </div>
-            </div>
+            {% for seller in sellers %}
+                {% if seller.is_available %}
+                    {% if seller in favorites %}
+                        <script>
+                            $(document).ready(function () {
+                                addFavoriteMarker(seller.lt, seller.lng, seller.id);
+                            });
+                        </script>
+                    {% else %}
+                        <script>
+                            $(document).ready(function () {
+                                addMarker(seller.lt, seller.lng, seller.id);
+                            });
+                        </script>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <div id="googleMap" style="height: 90vh; position: relative; overflow: hidden; width: 100%;"/>
         </div>
     </main>
 {% endblock %}

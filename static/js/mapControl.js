@@ -2,20 +2,6 @@
  * Created by diego on 6/26/2017.
  */
 
-var image = {
-    url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-    // The origin for this image is (0, 0).
-    origin: new google.maps.Point(0, 0),
-    // The anchor for this image is the base of the flagpole at (0, 32).
-    anchor: new google.maps.Point(0, 32)
-};
-
-var lineSymbol = {
-    path: google.maps.SymbolPath.CIRCLE,
-    scale: 8,
-    strokeColor: '#ffff00'
-};
-
 var shape = {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
     type: 'poly'
@@ -23,6 +9,8 @@ var shape = {
 
 var myCenter = new google.maps.LatLng(-33.457684, -70.665032);
 var user;
+var markers = new Array();
+var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
 function initialize() {
     var mapProp = {
         center: myCenter,
@@ -31,11 +19,10 @@ function initialize() {
     };
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
     user = new google.maps.Marker({
-        position: myCenter
+        position: myCenter,
+        icon: iconBase + 'target.png'
     });
     user.setMap(map);
-    // Info open
-    //var infoWindow = new google.maps.InfoWindow({map: map});
     centerMap(map);
     var centerControlDiv = document.createElement('div');
     var centerControl = new CenterControl(centerControlDiv, map);
@@ -44,15 +31,32 @@ function initialize() {
 }
 
 function addMarker(lt, lng, id) {
+    var pos = new google.maps.LatLng(lt, lng);
     var marker = new google.maps.Marker({
-        position: myCenter,
-        // icon:'themes/assets/images/nepali-momo.png',
+        position: pos,
+        icon: iconBase + 'dining.png',
+        url: "/showcase/" + id
+    });
+    google.maps.event.addListener(marker, 'click', function () {
+        window.location.href = marker.url;
+    });
+    marker.setMap(map);
+    markers.push(marker)
+}
+
+function addFavoriteMarker(lt, lng, id) {
+    var pos = new google.maps.LatLng(lt, lng);
+    var marker = new google.maps.Marker({
+        position: pos,
+        icon: iconBase + 'star.png',
         animation: google.maps.Animation.BOUNCE,
         url: "/showcase/" + id
     });
     google.maps.event.addListener(marker, 'click', function () {
         window.location.href = marker.url;
     });
+    marker.setMap(map);
+    markers.push(marker)
 }
 
 function centerMap(map) {
