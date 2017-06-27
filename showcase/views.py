@@ -73,6 +73,7 @@ class SellerDetailView(DetailView):
 #                 client.f_established.add(seller)
 #         client.save()
 #         return HttpResponse(status=204)
+
 class FavoriteView(View):
     def get(self, request, pk):
         client = get_object_or_404(Client, pk=request.user.id)
@@ -166,7 +167,7 @@ class DishDeleteView(DeleteView):
         return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
 
 def statistics(request):
-    return render(request, 'homepage/map.html')
+    return render(request, 'showcase/statistics.html')
 
 
 class CheckIn(View):
