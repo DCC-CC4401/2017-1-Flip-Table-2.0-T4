@@ -11,6 +11,8 @@ from django.core.files.storage import default_storage
 from django.views import View
 from django.views.generic import DetailView
 
+from .models import Transaction
+
 from account.models import Client, Peddler, Established, Seller
 from showcase.models import Dish
 
@@ -171,8 +173,21 @@ class DishDeleteView(DeleteView):
         return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
 
 
+#def statistics(request):
+#    return render(request, 'showcase/statistics.html')
+
+
 def statistics(request):
-    return render(request, 'showcase/statistics.html')
+    months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre',
+              'Noviembre', 'Diciembre']
+    earnings = {}
+    for i, month in enumerate(months):
+        sum = 0
+        for item in Transaction.objects.all():
+            if item.date.month == i + 1 and request.user.username == item.user.username:
+                sum += item.price * item.quantity
+        earnings[month] = sum
+    return render(request, 'showcase/statistics.html', {'months': months, 'earnings': earnings})
 
 
 class CheckIn(View):
