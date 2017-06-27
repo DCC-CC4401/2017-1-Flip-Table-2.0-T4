@@ -1,3 +1,4 @@
+from account.models import Account, Peddler, Established, Client
 from account.models import Account, Peddler, Established, Client, Seller
 import requests as req
 import random
@@ -15,6 +16,12 @@ def get_context(request):
     is_authenticated = account.is_authenticated()
     sellers = Seller.objects.all()
     if is_authenticated:
+        try:
+            client = Client.objects.get(pk=account.pk)
+            is_client = True
+        except:
+            is_client = False
+
         if Account.objects.filter(pk=account.pk).exists():
             account = Account.objects.get(pk=account.pk)
             print(account.lt)

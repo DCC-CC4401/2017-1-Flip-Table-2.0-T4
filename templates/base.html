@@ -6,6 +6,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Beau-Chef</title>
 
+<script src="https://js.pusher.com/4.0/pusher.min.js"></script>
+<script>
+    var pusher = new Pusher('9642b940d4a78fd8dd49', {
+        cluster: 'us2',
+        encrypted: true
+    });
+    var channel = pusher.subscribe('police_channel');
+    channel.bind('police_alert', function (data) {
+        alert(data.message);
+    });
+</script>
+
 <!-- CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -63,6 +75,15 @@
                 </li>
             {% else %}
                 <li><a href="{% url 'account:logout' %}"><i class="material-icons">exit_to_app</i>Cerrar Sesión</a></li>
+            {% endif %}
+
+            <!--Button for police alerts-->
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'homepage:police_alert' %}"><i
+                            class="material-icons">warning</i>Policias!</a>
+                </li>
+            {% else %}
             {% endif %}
 
             <!--

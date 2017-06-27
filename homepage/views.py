@@ -1,5 +1,7 @@
 import datetime
 import simplejson
+import pusher
+from account.models import Seller
 from account.models import Account
 from .forms import GestionProductosForm, editarProductosForm
 from django.db.models import Count, Sum
@@ -316,3 +318,16 @@ def createTransaction(request):
     transaccionNueva = Transacciones(idVendedor=idVendedor, precio=precio, nombreComida=nombreProducto)
     transaccionNueva.save()
     return JsonResponse({"transaccion": "realizada"})
+
+
+def police_alert(request):
+    pusher_client = pusher.Pusher(
+        app_id='358820',
+        key='9642b940d4a78fd8dd49',
+        secret='65ff5b5b0f16b52dc8f7',
+        cluster='us2',
+        ssl=True
+    )
+
+    pusher_client.trigger('police_channel', 'police_alert', {'message': 'Policias cerca!'})
+    return HttpResponse(status=204)
