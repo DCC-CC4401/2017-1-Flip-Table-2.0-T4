@@ -20,7 +20,7 @@
                     };
                     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
                     user = new google.maps.Marker({
-                        position: {lat: {{ account.lt }}, lng: {{ account.lng }}},
+                        position: {lat: {{ lt }}, lng: {{ lng }}},
                         icon: iconBase + 'target.png'
                     });
                     var i = 0;
@@ -96,8 +96,8 @@
                         navigator.geolocation.getCurrentPosition(
                             function (position) {
                                 var pos = {
-                                    lat: {{ account.lt }},
-                                    lng: {{ account.lng }}
+                                    lat: {{ lt }},
+                                    lng: {{ lng }}
                                 };
                                 //infoWindow.setPosition(pos);
                                 user.setPosition(pos);
@@ -153,51 +153,3 @@
         </div>
     </main>
 {% endblock %}
-{% for seller in peddlers %}
-    {% if seller.is_available %}
-        {% if seller.pk in favorites %}
-            pos = new google.maps.LatLng({{ seller.lt }}, {{ seller.lng }});
-            markers.push(new google.maps.Marker({
-            position: pos,
-            icon: iconBase + 'star.png',
-            animation: google.maps.Animation.BOUNCE,
-            url: "/showcase/" + id,
-            map: map
-            }));
-        {% else %}
-            pos = new google.maps.LatLng({{ seller.lt }}, {{ seller.lng }});
-            markers.push(new google.maps.Marker({
-            position: pos,
-            icon: iconBase + 'dining.png',
-            url: "/showcase/" + id,
-            map: map
-            }));
-        {% endif %}
-    {% endif %}
-{% endfor %}
-{% for seller in established %}
-    {% if seller.is_available %}
-        {% if seller.pk in favorites %}
-            pos = new google.maps.LatLng({{ seller.lt }}, {{ seller.lng }});
-            markers.push(new google.maps.Marker({
-            position: pos,
-            icon: iconBase + 'star.png',
-            animation: google.maps.Animation.BOUNCE,
-            url: "/showcase/" + id,
-            map: map
-            }));
-        {% else %}
-            pos = new google.maps.LatLng({{ seller.lt }}, {{ seller.lng }});
-            markers.push(new google.maps.Marker({
-            position: pos,
-            icon: iconBase + 'dining.png',
-            url: "/showcase/" + id,
-            map: map
-            }));
-        {% endif %}
-        google.maps.event.addListener(markers[i], 'click', function () {
-        window.location.href = markers[i].url;
-        });
-        i = i + 1;
-    {% endif %}
-{% endfor %}

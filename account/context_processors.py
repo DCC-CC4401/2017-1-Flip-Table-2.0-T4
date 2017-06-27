@@ -33,15 +33,16 @@ def get_context(request):
 
 
 def update_pos(request):
-    pos = {}
+    res = req.get('http://freegeoip.net/json')
+    pos = res.json()
+    lt = pos['latitude']
+    lng = pos['longitude']
     if Account.objects.filter(pk=request.user.pk).exists():
-        res = req.get('http://freegeoip.net/json')
-        pos = res.json()
         acc = Account.objects.get(pk=request.user.pk)
-        acc.lt = pos['latitude']
-        acc.lng = pos['longitude']
+        acc.lt = lt
+        acc.lng = lng
         if Seller.objects.filter(pk=request.user.pk).exists():
             acc.lng -= random.random() * .001 * (1 if random.random() > 0.5 else -1)
             acc.lt -= random.random() * .001 * (1 if random.random() > 0.5 else -1)
         acc.save()
-    return {'pos': pos}
+    return {'pos': pos, 'lt':lt, 'lng':lng}
