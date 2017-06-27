@@ -8,7 +8,6 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
-import requests as req
 
 from django.views.generic.edit import FormView
 from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm
