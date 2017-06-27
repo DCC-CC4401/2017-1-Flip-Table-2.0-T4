@@ -18,8 +18,7 @@
         var lt = {{ lt }},
             lng = {{ lng }},
             dis = ((lt-data.lt)^2 + (lng-data.lng)^2)^(1/2);
-            if (dis*0.001 < 15 ){
-                alert(data.message);}
+            alert(data.message);
         {% endif %}
         //alert(data.message);
     });
