@@ -1,3 +1,4 @@
+pusher
 Django==1.11.1
 django-multiselectfield==0.1.7
 Pillow==4.1.1
