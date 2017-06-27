@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
-from django.views.generic.edit import FormView
+from django.views import View
 from django.views.generic import DetailView
 
 from account.models import Client, Peddler, Established, Seller
@@ -26,17 +26,88 @@ class SellerDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(SellerDetailView, self).get_context_data(**kwargs)
         context['is_peddler'] = hasattr(self.object, 'peddler')
-        context['is_client'] = self.request.user.is_authenticated() and hasattr(self.object, 'client')
+        context['is_client'] = self.request.user.is_authenticated() and Client.objects.filter(pk=self.request.user.id).exists()
+        context['is_favorite'] = self.object.client_set.filter(pk=self.request.user.id).exists()
         context['in_own_showcase'] = self.request.user.is_authenticated() and self.request.user.id == self.object.id
         context['dishes'] = self.object.dish_set.all()
+        context['is_available'] = self.is_available()
         return context
 
     def get_object(self, queryset=None):
-        id = self.kwargs.get(self.pk_url_kwarg)
-        if Peddler.objects.filter(pk=id).exists():
-            return Peddler.objects.get(pk=id)
+        seller_id = self.kwargs.get(self.pk_url_kwarg)
+        if Peddler.objects.filter(pk=seller_id).exists():
+            return Peddler.objects.get(pk=seller_id)
         else:
-            return get_object_or_404(Established, pk=id)
+            return get_object_or_404(Established, pk=seller_id)
+
+    def is_available(self):
+        now = datetime.datetime.now().time()
+        is_available = False
+        try:
+            start = self.object.start
+            end = self.object.end
+            if start <= end:
+                if start <= now and now < end:
+                    is_available = True
+            else:
+                if start <= now or now < end:
+                    is_available = True
+        except:
+            is_available = False
+        return is_available
+
+# class Favorite(View):
+#     def get(self, request, pk):
+#         client = get_object_or_404(Client, pk=pk)
+#         if Peddler.objects.filter(pk=pk).exists():
+#             seller = Peddler.objects.get(pk=pk)
+#             if client.f_peddler.filter(id=seller.id).exists():
+#                 client.f_peddler.remove(seller)
+#             else:
+#                 client.f_peddler.add(seller)
+#         else:
+#             seller = Established.objects.get(pk=pk)
+#             if client.f_established.filter(id=seller.id).exists():
+#                 client.f_established.remove(seller)
+#             else:
+#                 client.f_established.add(seller)
+#         client.save()
+#         return HttpResponse(status=204)
+class FavoriteView(View):
+    def get(self, request, pk):
+        client = get_object_or_404(Client, pk=request.user.id)
+        if Peddler.objects.filter(pk=pk).exists():
+            seller = Peddler.objects.get(pk=pk)
+            if client.f_peddler.filter(id=seller.id).exists():
+                client.f_peddler.remove(seller)
+            else:
+                client.f_peddler.add(seller)
+        else:
+            seller = Established.objects.get(pk=pk)
+            if client.f_established.filter(id=seller.id).exists():
+                client.f_established.remove(seller)
+            else:
+                client.f_established.add(seller)
+        client.save()
+        return HttpResponse(status=204)
+
+def favorite_seller(request, seller_id):
+    # user = get_object_or_404(User, id=seller_id)
+    # client = get_object_or_404(Client, user=request.user)
+    # if Peddler.objects.filter(user=user).exists():
+    #     seller = Peddler.objects.get(user=user)
+    #     if client.f_peddler.filter(id=seller.id).exists():
+    #         client.f_peddler.remove(seller)
+    #     else:
+    #         client.f_peddler.add(seller)
+    # elif Established.objects.filter(user=user).exists():
+    #     seller = Established.objects.get(user=user)
+    #     if client.f_established.filter(id=seller.id).exists():
+    #         client.f_established.remove(seller)
+    #     else:
+    #         client.f_established.add(seller)
+    # client.save()
+    return HttpResponse(status=204)
 
 
 class DishCreateView(CreateView):
@@ -94,28 +165,16 @@ class DishDeleteView(DeleteView):
     def get_success_url(self):
         return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
 
-
-def favorite_seller(request, seller_id):
-    if Peddler.objects.filter(pk=seller_id).exists():
-        seller = Peddler.objects.filter(pk=seller_id)
-        is_peddler = True
-    else:
-        seller = get_object_or_404(Established, pk=seller_id)
-        is_peddler = False
-    client = get_object_or_404(Client, pk=request.user.id)
-    if is_peddler:
-        if seller in client.f_peddler.all():
-            client.f_peddler.remove(seller)
-        else:
-            client.f_peddler.add(seller)
-    else:
-        if seller in client.f_established.all():
-            client.f_established.remove(seller)
-        else:
-            client.f_established.add(seller)
-    client.save()
-    return HttpResponse(status=204)
-
-
 def statistics(request):
     return render(request, 'homepage/map.html')
+
+
+class CheckIn(View):
+    def get(self, request, seller_id):
+        seller_profile = get_object_or_404(Peddler, id=seller_id)
+        if seller_profile.available:
+            seller_profile.available = False
+        else:
+            seller_profile.available = True
+        seller_profile.save()
+        return HttpResponse(status=204)

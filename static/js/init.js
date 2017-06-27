@@ -19,6 +19,9 @@
             fc.html((parseInt(fc.text()) - 1).toString())
         }
         else {
+            var size = $(this).css('font-size')
+            $(this).animate({fontSize: '10em'}, "slow").delay(500);
+            $(this).animate({fontSize: size}, "fast");
             $(this).html('star');
             fc.html((parseInt(fc.text()) + 1).toString())
         }
