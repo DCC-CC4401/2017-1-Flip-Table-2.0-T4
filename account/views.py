@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm
+from account.forms import ClientUpdateForm, PeddlerUpdateForm, EstablishedUpdateForm
 from account.models import Client, Peddler, Established
 
 
@@ -64,10 +65,17 @@ class PeddlerCreateView(CreateView):
 class PeddlerUpdateView(UpdateView):
     model = Peddler
     template_name = 'account/edit-peddler.html'
-    fields = ['first_name', 'last_name', 'email', 'image', 'cash', 'credit', 'debit', 'social']
+    form_class = PeddlerUpdateForm
 
     def get_success_url(self):
-        return reverse('homepage:index')
+        return reverse('showcase:seller_detail', kwargs={'pk': self.kwargs.get(self.pk_url_kwarg)})
+
+    # def get_form_class(self):
+    #     form = super(PeddlerUpdateView, self).get_form_class()
+    #     # form.fields.pop('username')
+    #     # form.fields.pop('password1')
+    #     # form.fields.pop('password2')
+    #     return form
 
 
 class EstablishedCreateView(CreateView):

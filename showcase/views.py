@@ -48,7 +48,7 @@ class SellerDetailView(DetailView):
             start = self.object.start
             end = self.object.end
             if start <= end:
-                if start <= now and now < end:
+                if start <= now < end:
                     is_available = True
             else:
                 if start <= now or now < end:
