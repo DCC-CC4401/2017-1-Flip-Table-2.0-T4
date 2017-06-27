@@ -27,6 +27,7 @@ def get_context(request):
 
         if Account.objects.filter(pk=account.pk).exists():
             account = Account.objects.get(pk=account.pk)
+    print(favorites)
     print(peddlers)
     print(established)
     return {'account': account, 'is_client': is_client, 'is_authenticated': is_authenticated, 'peddlers': peddlers,
