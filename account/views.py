@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -118,8 +118,8 @@ def delete_user(request):
 
 @login_required(login_url='/account/login')
 def confirm_deleted(request):
-    logout(request)
     request.user.delete()
+    logout(request)
     messages.add_message(request, messages.SUCCESS, "Usuario eliminado exitosamente")
     return render(request, 'account/deleted_confirmation.html')
 

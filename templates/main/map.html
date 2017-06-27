@@ -8,12 +8,16 @@
         </script>
         {% for seller in peddlers %}
             {% if seller.is_available %}
+                <script>
                 addMarker(seller.lt, seller.lng, seller.id)
+                </script>
             {% endif %}
         {% endfor %}
         {% for seller in established %}
             {% if seller.is_available %}
+                <script>
                 addMarker(seller.lt, seller.lng, seller.id)
+                </script>
             {% endif %}
         {% endfor %}
         <div id="googleMap" style="position: relative; overflow: hidden; width: 90vh; height: 93vh">
