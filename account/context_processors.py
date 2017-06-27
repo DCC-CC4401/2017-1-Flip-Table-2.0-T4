@@ -19,7 +19,6 @@ def get_context(request):
             account = Account.objects.get(pk=account.pk)
             print(account.lt)
             print(account.lng)
-    print(favorites[0].is_available())
 
     return {'account': account, 'is_client': is_client, 'is_authenticated': is_authenticated, 'sellers': sellers,
             'favorites': favorites}
