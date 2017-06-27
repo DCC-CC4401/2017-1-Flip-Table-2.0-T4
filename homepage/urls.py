@@ -15,7 +15,5 @@ urlpatterns = [
     url(r'^agregarAvatar/', views.agregarAvatar, name='agregarAvatar'),
     url(r'^getStock/$', views.getStock, name='getStock'),
     url(r'^createTransaction/$', views.createTransaction, name='createTransaction'),
-    url(r'^fijoDashboard/$', views.fijoDashboard, name='fijoDashboard'),
-    url(r'^ambulanteDashboard/$', views.ambulanteDashboard, name='ambulanteDashboard'),
 
 ]

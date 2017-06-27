@@ -1,6 +1,6 @@
 import datetime
 import simplejson
-from account.models import Seller
+from account.models import Account
 from .forms import GestionProductosForm, editarProductosForm
 from django.db.models import Count, Sum
 from django.utils import timezone
@@ -8,150 +8,19 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
+import requests as req
 
 from django.views.generic.edit import FormView
 from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm
 
 
 def index(request):
+    res = req.get('http://freegeoip.net/json')
+    pos = res.json()
+    acc = Account.objects.get(id=request.user.id)
+    acc.lt = pos['latitude']
+    acc.lng = pos['longitude']
     return render(request, 'main/map.html')
-
-
-def fijoDashboard(request):
-    print(request.POST)
-    id = request.POST.get("fijoId")
-    # id = str(id)
-
-    # transacciones hechas por hoy
-    transaccionesDiarias = Transacciones.objects.filter(idVendedor=id).values('fecha').annotate(conteo=Count('fecha'))
-    temp_transaccionesDiarias = list(transaccionesDiarias)
-    transaccionesDiariasArr = []
-    for element in temp_transaccionesDiarias:
-        aux = []
-        aux.append(element['fecha'])
-        aux.append(element['conteo'])
-        transaccionesDiariasArr.append(aux)
-    transaccionesDiariasArr = simplejson.dumps(transaccionesDiariasArr)
-    # print(transaccionesDiariasArr)
-
-    # ganancias de hoy
-    gananciasDiarias = Transacciones.objects.filter(idVendedor=id).values('fecha').annotate(ganancia=Sum('precio'))
-    temp_gananciasDiarias = list(gananciasDiarias)
-    gananciasDiariasArr = []
-    for element in temp_gananciasDiarias:
-        aux = []
-        aux.append(element['fecha'])
-        aux.append(element['ganancia'])
-        # print("AUX")
-        # print(aux)
-        gananciasDiariasArr.append(aux)
-    gananciasDiariasArr = simplejson.dumps(gananciasDiariasArr)
-    # print(gananciasDiariasArr)
-
-    # todos los productos del vendedor
-    productos = Comida.objects.filter(idVendedor=id).values('nombre', 'precio')
-    temp_productos = list(productos)
-    productosArr = []
-    productosPrecioArr = []
-    for element in temp_productos:
-        aux = []
-        productosArr.append(element['nombre'])
-        aux.append(element['nombre'])
-        aux.append(element['precio'])
-        productosPrecioArr.append(aux)
-    productosArr = simplejson.dumps(productosArr)
-    productosPrecioArr = simplejson.dumps(productosPrecioArr)
-    print(productosPrecioArr)
-
-    # productos vendidos hoy con su cantidad respectiva
-    fechaHoy = str(timezone.now()).split(' ', 1)[0]
-    productosHoy = Transacciones.objects.filter(idVendedor=id, fecha=fechaHoy).values('nombreComida').annotate(
-        conteo=Count('nombreComida'))
-    temp_productosHoy = list(productosHoy)
-    productosHoyArr = []
-    for element in temp_productosHoy:
-        aux = []
-        aux.append(element['nombreComida'])
-        aux.append(element['conteo'])
-        productosHoyArr.append(aux)
-    productosHoyArr = simplejson.dumps(productosHoyArr)
-    # print(productosHoyArr)
-
-    return render(request, 'main/fijoDashboard.html',
-                  {"transacciones": transaccionesDiariasArr, "ganancias": gananciasDiariasArr,
-                   "productos": productosArr, "productosHoy": productosHoyArr, "productosPrecio": productosPrecioArr})
-
-
-def ambulanteDashboard(request):
-    print(request.POST)
-    id = request.POST.get("ambulanteId")
-    # id = str(id)
-
-    # transacciones hechas por hoy
-    transaccionesDiarias = Transacciones.objects.filter(idVendedor=id).values('fecha').annotate(conteo=Count('fecha'))
-    temp_transaccionesDiarias = list(transaccionesDiarias)
-    transaccionesDiariasArr = []
-    for element in temp_transaccionesDiarias:
-        aux = []
-        aux.append(element['fecha'])
-        aux.append(element['conteo'])
-        transaccionesDiariasArr.append(aux)
-    transaccionesDiariasArr = simplejson.dumps(transaccionesDiariasArr)
-    # print(transaccionesDiariasArr)
-
-    # ganancias de hoy
-    gananciasDiarias = Transacciones.objects.filter(idVendedor=id).values('fecha').annotate(ganancia=Sum('precio'))
-    temp_gananciasDiarias = list(gananciasDiarias)
-    gananciasDiariasArr = []
-    for element in temp_gananciasDiarias:
-        aux = []
-        aux.append(element['fecha'])
-        aux.append(element['ganancia'])
-        # print("AUX")
-        # print(aux)
-        gananciasDiariasArr.append(aux)
-    gananciasDiariasArr = simplejson.dumps(gananciasDiariasArr)
-    # print(gananciasDiariasArr)
-
-
-    # todos los productos del vendedor
-    productos = Comida.objects.filter(idVendedor=id).values('nombre', 'precio')
-    temp_productos = list(productos)
-    productosArr = []
-    productosPrecioArr = []
-    for element in temp_productos:
-        aux = []
-        productosArr.append(element['nombre'])
-        aux.append(element['nombre'])
-        aux.append(element['precio'])
-        productosPrecioArr.append(aux)
-    productosArr = simplejson.dumps(productosArr)
-    productosPrecioArr = simplejson.dumps(productosPrecioArr)
-    print(productosPrecioArr)
-
-    # productos vendidos hoy con su cantidad respectiva
-    fechaHoy = str(timezone.now()).split(' ', 1)[0]
-    productosHoy = Transacciones.objects.filter(idVendedor=id, fecha=fechaHoy).values('nombreComida').annotate(
-        conteo=Count('nombreComida'))
-    temp_productosHoy = list(productosHoy)
-    productosHoyArr = []
-    for element in temp_productosHoy:
-        aux = []
-        aux.append(element['nombreComida'])
-        aux.append(element['conteo'])
-        productosHoyArr.append(aux)
-    productosHoyArr = simplejson.dumps(productosHoyArr)
-    # print(productosHoyArr)
-
-
-    return render(request, 'main/ambulanteDashboard.html',
-                  {"transacciones": transaccionesDiariasArr, "ganancias": gananciasDiariasArr,
-                   "productos": productosArr, "productosHoy": productosHoyArr, "productosPrecio": productosPrecioArr})
-
-
-def signup(request):
-    return render(request, 'main/signup.html', {})
-
 
 def gestionproductos(request):
     if request.session.has_key('id'):
