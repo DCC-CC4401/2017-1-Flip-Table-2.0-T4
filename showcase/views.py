@@ -31,6 +31,7 @@ class SellerDetailView(DetailView):
         context['is_favorite'] = self.object.client_set.filter(pk=self.request.user.id).exists()
         context['in_own_showcase'] = self.request.user.is_authenticated() and self.request.user.id == self.object.id
         context['dishes'] = self.object.dish_set.all()
+        context['is_available'] = self.is_available()
         return context
 
     def get_object(self, queryset=None):
@@ -39,6 +40,23 @@ class SellerDetailView(DetailView):
             return Peddler.objects.get(pk=seller_id)
         else:
             return get_object_or_404(Established, pk=seller_id)
+
+    def is_available(self):
+        now = datetime.datetime.now().time()
+        is_available = False
+        try:
+            start = self.object.start
+            end = self.object.end
+            if start <= end:
+                if start <= now and now < end:
+                    is_available = True
+            else:
+                if start <= now or now < end:
+                    is_available = True
+        except:
+            is_available = False
+        return is_available
+
 
 class FavoriteView(View):
     def get(self, request, pk):
@@ -74,7 +92,6 @@ class StockView(View):
         dish.save()
         dish.save()
         return HttpResponse(status=204)
-
 
 
 class DishCreateView(CreateView):
@@ -137,11 +154,12 @@ def statistics(request):
     return render(request, 'homepage/map.html')
 
 
-def check_in(request, seller_id):
-    seller_profile = get_object_or_404(Peddler, id=seller_id)
-    if seller_profile.available:
-        seller_profile.available = False
-    else:
-        seller_profile.available = True
-    seller_profile.save()
-    return HttpResponse(status=204)
+class CheckIn(View):
+    def get(self, request, seller_id):
+        seller_profile = get_object_or_404(Peddler, id=seller_id)
+        if seller_profile.available:
+            seller_profile.available = False
+        else:
+            seller_profile.available = True
+        seller_profile.save()
+        return HttpResponse(status=204)
