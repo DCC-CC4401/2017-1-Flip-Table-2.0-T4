@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 class Account(User):
@@ -31,6 +32,9 @@ class Peddler(Seller):
         verbose_name = 'Peddler'
         verbose_name_plural = 'Peddlers'
 
+    def is_available(self):
+        return self.available
+
 
 class Established(Seller):
     start = models.TimeField()
@@ -42,6 +46,9 @@ class Established(Seller):
     class Meta:
         verbose_name = 'Established'
         verbose_name_plural = 'Established'
+
+    def is_available(self):
+        return self.start <= datetime.time(datetime.now()) <= self.end
 
 
 class Client(Account):

@@ -9,52 +9,31 @@ var image = {
     // The anchor for this image is the base of the flagpole at (0, 32).
     anchor: new google.maps.Point(0, 32)
 };
+
 var lineSymbol = {
     path: google.maps.SymbolPath.CIRCLE,
     scale: 8,
     strokeColor: '#ffff00'
 };
+
 var shape = {
     coords: [1, 1, 1, 20, 18, 20, 18, 1],
     type: 'poly'
 };
+
 var myCenter = new google.maps.LatLng(-33.457684, -70.665032);
-var marker, marker2, marker3;
+var user;
 function initialize() {
     var mapProp = {
         center: myCenter,
-        zoom: 16,
+        zoom: 18,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-    marker = new google.maps.Marker({
-        position: myCenter,
-        // icon:'themes/assets/images/nepali-momo.png',
-        animation: google.maps.Animation.BOUNCE
+    user = new google.maps.Marker({
+        position: myCenter
     });
-    marker2 = new google.maps.Marker({
-        position: myCenter,
-        icon: image,
-        shape: shape,
-        title: "FavoriteSeller",
-        url: "SellerBuyerInterface.html"
-    });
-    marker3 = new google.maps.Marker({
-        position: myCenter,
-        icon: lineSymbol,
-        shape: shape,
-        title: "Seller",
-        url: "SellerBuyerInterface.html"
-    });
-    marker.setMap(map);
-    marker2.setMap(map);
-    marker3.setMap(map);
-    google.maps.event.addListener(marker2, 'click', function () {
-        window.location.href = marker2.url;
-    });
-    google.maps.event.addListener(marker3, 'click', function () {
-        window.location.href = marker3.url;
-    });
+    user.setMap(map);
     // Info open
     //var infoWindow = new google.maps.InfoWindow({map: map});
     centerMap(map);
@@ -63,8 +42,9 @@ function initialize() {
     centerControlDiv.index = 1;
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
 }
-function addMarker(map, position, id) {
-    marker = new google.maps.Marker({
+
+function addMarker(lt, lng, id) {
+    var marker = new google.maps.Marker({
         position: myCenter,
         // icon:'themes/assets/images/nepali-momo.png',
         animation: google.maps.Animation.BOUNCE,
@@ -74,31 +54,35 @@ function addMarker(map, position, id) {
         window.location.href = marker.url;
     });
 }
+
 function centerMap(map) {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            //infoWindow.setPosition(pos);
-            marker.setPosition(pos);
-            marker2.setPosition(new google.maps.LatLng(pos.lat - 0.0005, pos.lng - 0.0005));
-            marker3.setPosition(new google.maps.LatLng(pos.lat + 0.0005, pos.lng + 0.0005));
-            //infoWindow.setContent('Location found.');
-            map.setCenter(pos);
-        });
+        navigator.geolocation.getCurrentPosition(
+            function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                //infoWindow.setPosition(pos);
+                user.setPosition(pos);
+                //infoWindow.setContent('Location found.');
+                map.setCenter(pos);
+                map.setZoom(18);
+            }
+        );
     } else {
         // Browser doesn't support Geolocation
         //handleLocationError(false, infoWindow, map.getCenter());
     }
 }
+
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
         'Error: The Geolocation service failed.' :
         'Error: Your browser doesn\'t support geolocation.');
 }
+
 function CenterControl(controlDiv, map) {
     // Set CSS for the control border.
     var controlUI = document.createElement('div');
@@ -126,4 +110,5 @@ function CenterControl(controlDiv, map) {
         centerMap(map);
     });
 }
+
 google.maps.event.addDomListener(window, 'load', initialize);

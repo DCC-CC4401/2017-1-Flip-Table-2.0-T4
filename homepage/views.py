@@ -2,7 +2,6 @@ import datetime
 import simplejson
 from account.models import Seller
 from .forms import GestionProductosForm, editarProductosForm
-from .models import Favoritos, Imagen, Transacciones
 from django.db.models import Count, Sum
 from django.utils import timezone
 from django.shortcuts import render
@@ -15,8 +14,7 @@ from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreate
 
 
 def index(request):
-    vendedores = Seller.objects.all()
-    return render(request, 'main/map.html', {'vendedores': vendedores})
+    return render(request, 'main/map.html')
 
 
 def fijoDashboard(request):

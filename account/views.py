@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -130,3 +130,6 @@ def confirm_deleted(request):
     logout(request)
     messages.add_message(request, messages.SUCCESS, "Usuario eliminado exitosamente")
     return render(request, 'account/deleted_confirmation.html')
+
+def profile(request):
+    return redirect('homepage:index')
