@@ -15,11 +15,6 @@ from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreate
 
 
 def index(request):
-    res = req.get('http://freegeoip.net/json')
-    pos = res.json()
-    acc = Account.objects.get(id=request.user.id)
-    acc.lt = pos['latitude']
-    acc.lng = pos['longitude']
     return render(request, 'main/map.html')
 
 def gestionproductos(request):
