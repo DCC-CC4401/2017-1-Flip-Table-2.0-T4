@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+    <main>
+        <div class="container " style="height: 100%; width: 100%">
+            <script
+                    src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB2ECHh4w8C_romdoQJxWZ7orqFXYRzLOc&sensor=false">
+            </script>
+            <script src="../../static/js/mapControl.js">
+            </script>
+
+            {% for seller in peddlers %}
+            {% if seller.is_available %}
+                <script>
+                addMarker(seller.lt, seller.lng, seller.id)
+                </script>
+            {% endif %}
+        {% endfor %}
+        {% for seller in established %}
+            {% if seller.is_available %}
+                <script>
+                addMarker(seller.lt, seller.lng, seller.id)
+                </script>
+            {% endif %}
+        {% endfor %}
+            <div id="googleMap" style="height: 90vh; position: relative; overflow: hidden; width: 100%;">
+                <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="section"></div>
+    <main>
+        <div class="section"></div>
+
+        <h3 style="text-align: center;" class="teal-text">Eliminar cuenta</h3>
+
+        <div class="container">
+            <div class="z-depth-1 grey lighten-4 row"
+                 style="margin-left: 2%; margin-right: 2%; padding: 30px 30px 0 30px; border: 1px solid #EEE;">
+
+                <div class="section" align="center">
+                    <h4 style="align-content: center" class="red-text">Atención, esto eliminará toda tu
+                        información. </h4>
+                    <h6 style="align-content: center">Si estás seguro de lo que estás haciendo, presiona el botón a
+                        continuación</h6>
+                </div>
+
+                <form class="col s12" method="post">
+                    <div class='row center' style="align-content: center">
+                        <a href="{% url 'account:confirm_deleted' %}">
+                            <button type='button' class='center l6 offset-l3 btn btn-large waves-effect teal'
+                                    style="text-align: center">
+                                ELIMINAR CUENTA PERMANENTEMENTE
+                            </button>
+                        </a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div style="text-align: center;"><a
+                href="{% url 'homepage:index' %}"> Volver a la página principal </a></div>
+
+
+        <div class="section"></div>
+        <div class="section"></div>
+    </main>
+{% endblock %}

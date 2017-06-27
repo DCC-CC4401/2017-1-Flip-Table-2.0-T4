@@ -1,0 +1,410 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$123436000$qD0DGi7UKK5r$Ee2Y4C0RSaCOnjKBXwq8f4Z0tL7vAZdJW+LqNUS+Gds=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "alumno1",
+      "first_name": "Tibo",
+      "last_name": "Swy",
+      "email": "tsy@bla.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-05-27T05:46:12.118Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$qD0DGi7UKK5r$Ee2Y4C0RSaCOnjKBXwq8f4Z0tL7vAZdJW+LqNUS+Gds=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "alumno2",
+      "first_name": "pepe",
+      "last_name": "pepe2",
+      "email": "pepe@pepe.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-05-27T05:46:12.149Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$qD0DGi7UKK5r$Ee2Y4C0RSaCOnjKBXwq8f4Z0tL7vAZdJW+LqNUS+Gds=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "chino",
+      "first_name": "diego",
+      "last_name": "diego2",
+      "email": "diego@diego.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-05-27T05:46:12.150Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$qD0DGi7UKK5r$Ee2Y4C0RSaCOnjKBXwq8f4Z0tL7vAZdJW+LqNUS+Gds=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "lunchbox",
+      "first_name": "juan",
+      "last_name": "juan2",
+      "email": "juan@juan.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-05-27T05:46:12.152Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$qD0DGi7UKK5r$Ee2Y4C0RSaCOnjKBXwq8f4Z0tL7vAZdJW+LqNUS+Gds=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "sushi",
+      "first_name": "lucas",
+      "last_name": "lucas2",
+      "email": "lucas@lucas.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-05-27T05:46:12.153Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$qD0DGi7UKK5r$Ee2Y4C0RSaCOnjKBXwq8f4Z0tL7vAZdJW+LqNUS+Gds=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "pepe",
+      "first_name": "pedro",
+      "last_name": "pedro2",
+      "email": "pedro@pedro.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-05-27T05:46:12.154Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$qD0DGi7UKK5r$Ee2Y4C0RSaCOnjKBXwq8f4Z0tL7vAZdJW+LqNUS+Gds=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "empanada",
+      "first_name": "carlos",
+      "last_name": "carlos2",
+      "email": "carlos@carlos.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2017-05-27T05:46:12.157Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 8,
+    "fields": {
+      "password": "pbkdf2_sha256$36000$qD0DGi7UKK5r$Ee2Y4C0RSaCOnjKBXwq8f4Z0tL7vAZdJW+LqNUS+Gds=",
+      "last_login": "2017-05-27T07:43:25.945Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "first_name",
+      "last_name": "last_name",
+      "email": "a@a.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2017-05-27T06:53:12.435Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "showcase.tag",
+    "pk": 1,
+    "fields": {
+      "name": "Pack"
+    }
+  },
+  {
+    "model": "showcase.tag",
+    "pk": 2,
+    "fields": {
+      "name": "Vegetariano"
+    }
+  },
+  {
+    "model": "showcase.tag",
+    "pk": 3,
+    "fields": {
+      "name": "Vegano"
+    }
+  },
+  {
+    "model": "showcase.tag",
+    "pk": 4,
+    "fields": {
+      "name": "Pastas"
+    }
+  },
+  {
+    "model": "showcase.tag",
+    "pk": 5,
+    "fields": {
+      "name": "Handroll"
+    }
+  },
+  {
+    "model": "showcase.tag",
+    "pk": 6,
+    "fields": {
+      "name": "Casero"
+    }
+  },
+  {
+    "model": "showcase.tag",
+    "pk": 7,
+    "fields": {
+      "name": "Almuerzo"
+    }
+  },
+  {
+    "model": "showcase.dish",
+    "pk": 1,
+    "fields": {
+      "user": 3,
+      "name": "carne mongoliana",
+      "icon": "default/rice.png",
+      "image": "default/rice.png",
+      "description": "La carne mongoliana m\u00e1s rica que hayan probado",
+      "stock": 20,
+      "price": 2990,
+      "tags": [
+        1,
+        6,
+        7
+      ]
+    }
+  },
+  {
+    "model": "showcase.dish",
+    "pk": 2,
+    "fields": {
+      "user": 3,
+      "name": "pollo mongoliano",
+      "icon": "default/rice.png",
+      "image": "default/rice.png",
+      "description": "El pollo mongoliano mas ricoque hayan probado",
+      "stock": 10,
+      "price": 1990,
+      "tags": [
+        1,
+        6,
+        7
+      ]
+    }
+  },
+  {
+    "model": "showcase.dish",
+    "pk": 3,
+    "fields": {
+      "user": 7,
+      "name": "empanada de pino",
+      "icon": "default/rice.png",
+      "image": "default/rice.png",
+      "description": "Empanada cacera con pino de carne mechada",
+      "stock": 15,
+      "price": 1000,
+      "tags": [
+        6
+      ]
+    }
+  },
+  {
+    "model": "showcase.dish",
+    "pk": 4,
+    "fields": {
+      "user": 7,
+      "name": "empanada de queso",
+      "icon": "default/rice.png",
+      "image": "default/rice.png",
+      "description": "Empanada hecha con queso de campo",
+      "stock": 5,
+      "price": 1000,
+      "tags": [
+        2,
+        3,
+        6
+      ]
+    }
+  },
+  {
+    "model": "showcase.dish",
+    "pk": 5,
+    "fields": {
+      "user": 4,
+      "name": "arroz con pollo",
+      "icon": "default/rice.png",
+      "image": "default/rice.png",
+      "description": "El mejor lunchbox que has omido",
+      "stock": 8,
+      "price": 2500,
+      "tags": [
+        1,
+        6,
+        7
+      ]
+    }
+  },
+  {
+    "model": "showcase.dish",
+    "pk": 6,
+    "fields": {
+      "user": 5,
+      "name": "sushi tempura",
+      "icon": "default/rice.png",
+      "image": "default/rice.png",
+      "description": "Sushi relleno de pollo, queso crema y ciboulette",
+      "stock": 12,
+      "price": 1200,
+      "tags": [
+        5
+      ]
+    }
+  },
+  {
+    "model": "showcase.dish",
+    "pk": 7,
+    "fields": {
+      "user": 6,
+      "name": "lasagna",
+      "icon": "default/rice.png",
+      "image": "default/rice.png",
+      "description": "Lasagna cacera con pino de lomo liso y pasas carozzi",
+      "stock": 3,
+      "price": 2300,
+      "tags": [
+        1,
+        4,
+        6,
+        7
+      ]
+    }
+  },
+  {
+    "model": "account.established",
+    "pk": 1,
+    "fields": {
+      "user": 6,
+      "image": "default/AvatarVendedor1.png",
+      "cash": true,
+      "credit": false,
+      "debit": false,
+      "social": false,
+      "start": "1:20:00",
+      "end": "20:34:00"
+    }
+  },
+  {
+    "model": "account.established",
+    "pk": 2,
+    "fields": {
+      "user": 7,
+      "image": "default/AvatarVendedor2.png",
+      "cash": true,
+      "credit": false,
+      "debit": false,
+      "social": false,
+      "start": "8:20:00",
+      "end": "14:34:00"
+    }
+  },
+  {
+    "model": "account.peddler",
+    "pk": 1,
+    "fields": {
+      "user": 3,
+      "image": "default/AvatarVendedor3.png",
+      "cash": true,
+      "credit": false,
+      "debit": false,
+      "social": false
+    }
+  },
+  {
+    "model": "account.peddler",
+    "pk": 2,
+    "fields": {
+      "user": 4,
+      "image": "default/AvatarVendedor4.png",
+      "cash": true,
+      "credit": false,
+      "debit": false,
+      "social": false
+    }
+  },
+  {
+    "model": "account.peddler",
+    "pk": 3,
+    "fields": {
+      "user": 5,
+      "image": "default/AvatarVendedor5.png",
+      "cash": true,
+      "credit": false,
+      "debit": false,
+      "social": false
+    }
+  },
+  {
+    "model": "account.client",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "image": "default/AvatarEstudiante1.png",
+      "f_peddler": [
+        1,
+        2
+      ],
+      "f_established": [
+        1
+      ]
+    }
+  },
+  {
+    "model": "account.client",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "image": "default/AvatarEstudiante2.png",
+      "f_peddler": [
+        2,
+        3
+      ],
+      "f_established": []
+    }
+  }
+]

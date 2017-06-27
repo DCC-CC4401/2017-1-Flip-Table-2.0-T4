@@ -1,0 +1,36 @@
+{% extends 'account/edit-base.html' %}
+{% block body %}
+    {% load staticfiles %}
+
+    <div class='row'>
+        Seleccione sus formas de pago:
+        <p>
+            {{ form.cash.errors }}
+            {{ form.cash }}
+            <label for="{{ form.cash.id_for_label }}">Efectivo</label>
+        </p>
+        <p>
+            {{ form.credit.errors }}
+            {{ form.credit }}
+            <label for="{{ form.credit.id_for_label }}">Tarjeta de Crédito</label>
+
+        </p>
+        <p>
+            {{ form.debit.errors }}
+            {{ form.debit }}
+            <label for="{{ form.debit.id_for_label }}">Tarjeta de Débito</label>
+        </p>
+        <p>
+            {{ form.social.errors }}
+            {{ form.social }}
+            <label for="{{ form.social.id_for_label }}">Tarjeta Junaeb</label>
+        </p>
+    </div>
+{% endblock %}
+
+{% block peddler %}
+    value="#" disabled selected
+{% endblock %}
+
+{% block default %}
+{% endblock %}
