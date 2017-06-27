@@ -38,12 +38,16 @@
                                     url: '/showcase/' + id_str
                                 }));
                             {% else %}
-                                markers.push(new google.maps.Marker({
-                                    position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
-                                    map: map,
-                                    icon: iconBase + 'dining.png',
-                                    url: '/showcase/' + id_str
-                                }));
+                                {% if is_client and not account.only_favs %}
+                                    markers.push(new google.maps.Marker({
+                                        position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
+                                        map: map,
+                                        icon: iconBase + 'dining.png',
+                                        url: '/showcase/' + id_str
+                                    }));
+                                {% else %}
+                                    i = i - 1;
+                                {% endif %}
                             {% endif %}
                             google.maps.event.addListener(markers[i], 'click', function () {
                                 window.location.href = this.url;
@@ -63,12 +67,16 @@
                                     url: '/showcase/' + id_str
                                 }));
                             {% else %}
-                                markers.push(new google.maps.Marker({
-                                    position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
-                                    map: map,
-                                    icon: iconBase + 'dining.png',
-                                    url: '/showcase/' + id_str
-                                }));
+                                {% if is_client and not account.only_favs %}
+                                    markers.push(new google.maps.Marker({
+                                        position: {lat: {{ seller.lt }}, lng: {{ seller.lng }}},
+                                        map: map,
+                                        icon: iconBase + 'dining.png',
+                                        url: '/showcase/' + id_str
+                                    }));
+                                {% else %}
+                                    i = i - 1;
+                                {% endif %}
                             {% endif %}
                             google.maps.event.addListener(markers[i], 'click', function () {
                                 window.location.href = this.url;

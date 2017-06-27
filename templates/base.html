@@ -92,9 +92,11 @@
                 {% block filter %}
                     <li><a class="subheader">Filtros</a></li>
                     <li>
-                        <div class="switch" style="margin-left: 10px;">
-                            <label>
-                                <input type="checkbox"><span class="lever"></span>Sólo mostrar favoritos
+                        <div class="switch" style="margin-left: 10px;" id="checkin">
+                            <label for="available_switch">
+                                <input id="available_switch" type="checkbox" {% if only_favs %}checked{% endif %}
+                                       onclick='window.location.assign("{% url 'homepage:fav-filter' account.id %}")'>
+                                <span class="lever"></span>Favoritos
                             </label>
                         </div>
                     </li>
