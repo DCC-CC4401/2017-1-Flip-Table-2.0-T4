@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <link>
-    {% load staticfiles %}
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Beau-Chef</title>
+{% load staticfiles %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beau-Chef</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
-    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"/>
-    <link type="text/css" rel="stylesheet" href="{% static 'style.css' %}">
+<!-- CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/css/materialize.min.css">
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link type="text/css" rel="stylesheet" href="{% static 'css/materialize.min.css' %}"/>
+<link type="text/css" rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 
 <body>
@@ -48,8 +48,9 @@
                         {% else %}
                             <img class="circle" src="{{ account.image.url }}" alt="Avatar">
                         {% endif %}
-                        <a href="{% url 'account:edit_user' user.id %}"><i class="material-icons right grey-text text-lighten-2"
-                                                                   style="position: absolute; bottom: 0.2em; right: 0.2em; padding: 0 0 !important;">settings</i></a>
+                        <a href="{% url 'account:edit_user' user.id %}"><i
+                                class="material-icons right grey-text text-lighten-2"
+                                style="position: absolute; bottom: 0.2em; right: 0.2em; padding: 0 0 !important;">settings</i></a>
                         <span class="white-text name">Hola {{ account.first_name }}!</span>
                     {% endif %}
                 </div>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 class Account(User):
@@ -47,7 +48,7 @@ class Established(Seller):
         verbose_name_plural = 'Established'
 
     def is_available(self):
-        return
+        return self.start <= datetime.time(datetime.now()) <= self.end
 
 
 class Client(Account):
