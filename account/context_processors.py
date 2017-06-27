@@ -8,6 +8,7 @@ def get_context(request):
     account = request.user
     favorites = []
     is_client = False
+    is_peddler = False
     if Client.objects.filter(pk=account.pk).exists():
         is_client = True
         f_p = list(Client.objects.get(pk=account.pk).f_peddler.all())
@@ -20,7 +21,11 @@ def get_context(request):
             client = Client.objects.get(pk=account.pk)
             is_client = True
         except:
-            is_client = False
+            try:
+                peddler = Peddler.objects.get(pk = account.pk)
+                is_peddler = True
+            except:
+                is_peddler = False
 
         if Account.objects.filter(pk=account.pk).exists():
             account = Account.objects.get(pk=account.pk)
@@ -28,7 +33,7 @@ def get_context(request):
             print(account.lng)
 
     return {'account': account, 'is_client': is_client, 'is_authenticated': is_authenticated, 'sellers': sellers,
-            'favorites': favorites}
+            'favorites': favorites, 'is_peddler': is_peddler}
 
 
 def update_pos(request):

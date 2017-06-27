@@ -10,6 +10,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
+from account.models import Client, Established, Peddler, Account, Seller
+from django.shortcuts import get_object_or_404
 
 from django.views.generic.edit import FormView
 from account.forms import ClientCreateForm, PeddlerCreateForm, EstablishedCreateForm
@@ -321,6 +323,11 @@ def createTransaction(request):
 
 
 def police_alert(request):
+    try:
+        user = Client.objects.get(pk=request.user.pk)
+    except:
+        user = Peddler.objects.get(pk=request.user.pk)
+
     pusher_client = pusher.Pusher(
         app_id='358820',
         key='9642b940d4a78fd8dd49',
@@ -329,5 +336,5 @@ def police_alert(request):
         ssl=True
     )
 
-    pusher_client.trigger('police_channel', 'police_alert', {'message': 'Policias cerca!'})
+    pusher_client.trigger('police_channel', 'police_alert', {'message': 'Policias cerca!','lt':user.lt,'lng':user.lng })
     return HttpResponse(status=204)

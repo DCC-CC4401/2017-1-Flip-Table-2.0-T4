@@ -14,6 +14,10 @@
     });
     var channel = pusher.subscribe('police_channel');
     channel.bind('police_alert', function (data) {
+        {% if is_peddler %}
+        var lt = {{ user.lt }},
+            lng = {{ lng }};
+        {% if  %}
         alert(data.message);
     });
 </script>
