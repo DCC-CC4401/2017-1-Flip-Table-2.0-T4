@@ -57,7 +57,7 @@ class SellerDetailView(DetailView):
             is_available = False
         return is_available
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
 # class Favorite(View):
 #     def get(self, request, pk):
 #         client = get_object_or_404(Client, pk=pk)
@@ -75,8 +75,8 @@ class SellerDetailView(DetailView):
 #                 client.f_established.add(seller)
 #         client.save()
 #         return HttpResponse(status=204)
-=======
->>>>>>> origin/refactor
+#=======
+#>>>>>>> origin/refactor
 
 class FavoriteView(View):
     def get(self, request, pk):
