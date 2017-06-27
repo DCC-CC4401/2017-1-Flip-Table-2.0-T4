@@ -465,5 +465,5 @@ def police_alert(request):
         ssl=True
     )
 
-    pusher_client.trigger('channel', 'police_alert', {'message': 'Policias cerca!'})
+    pusher_client.trigger('police_channel', 'police_alert', {'message': 'Policias cerca!'})
     return HttpResponse(status=204)

@@ -12,7 +12,7 @@
         cluster: 'us2',
         encrypted: true
     });
-    var channel = pusher.subscribe('channel');
+    var channel = pusher.subscribe('police_channel');
     channel.bind('police_alert', function (data) {
         alert(data.message);
     });
@@ -81,7 +81,7 @@
             {% if user.is_authenticated %}
                 <li>
                     <a href="{% url 'homepage:police_alert' %}"><i
-                            class="material-icons">account_circle</i>Policias!</a>
+                            class="material-icons">warning</i>Policias!</a>
                 </li>
             {% else %}
             {% endif %}
